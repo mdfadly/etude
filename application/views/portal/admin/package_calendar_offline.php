@@ -13,23 +13,23 @@
         border: 1px solid #eee;
         border-left-width: 5px;
         border-radius: 3px;
+    }
 
-        h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
+    .callout h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+    .callout p:last-child {
+        margin-bottom: 0;
+    }
 
-        code {
-            border-radius: 3px;
-        }
+    .callout code {
+        border-radius: 3px;
+    }
 
-        &+.bs-callout {
-            margin-top: -5px;
-        }
+    .callout .bs-callout {
+        margin-top: -5px;
     }
 
     .callout-primary {
@@ -92,11 +92,8 @@
                         <?= date_format($date_created, "j F Y"); ?> - <?= date_format($date_end, "j F Y"); ?>
                     </div>
                     <p class="pt-2" id="counter_pack">
-                        Lesson Package : <span class="badge badge-primary"> <?= intval($pack_online[0]['total_package']) - intval(count($count_total_package)) ?> package (<?= intval($pack_online[0]['total_package']) - intval(count($count_total_package)) ?> meeting)</span>
-                        <input type="hidden" id="countPackage" name="countPackage" value="<?= intval($pack_online[0]['total_package']) - intval(count($count_total_package)) ?>">
-                        <!-- Total Lesson Package = <span class="badge badge-primary"> <?= intval($pack_online[0]['total_package']) - intval(count($count_total_package)) ?> lesson</span> <br> -->
-                    </p>
-                    <p class="hiden">
+                        Lesson Package : <span class="badge badge-primary"> <?= intval($pack_online[0]['total_package']) - intval(count($count_package_pick)) ?> package (<?= intval($pack_online[0]['total_package']) - intval(count($count_package_pick)) ?> meeting)</span>
+
                         <span id="total_package" class="badge badge-primary" style="display:none"> <?= intval($pack_online[0]['total_package']) - intval(count($count_package_pick)) ?> lesson</span>
                     </p>
                 </div>
@@ -334,7 +331,7 @@
                 calendar.fullCalendar('refetchEvents');
                 alert("Added Successfully");
                 $("#counter_pack").html(data);
-                location.reload();
+                // location.reload();
             }
         });
     }
@@ -370,7 +367,7 @@
                 calendar.fullCalendar('refetchEvents');
                 alert("Updated Successfully");
                 $("#counter_pack").html(data);
-                location.reload();
+                // location.reload();
             }
         });
     }
@@ -403,7 +400,7 @@
                 alert("Deleted Successfully");
                 $("#counter_pack").html(data);
                 $('.fc-day[data-date=' + tgl + ']').css('background-color', '#FFFFFF');
-                location.reload();
+                // location.reload();
             }
         });
     }

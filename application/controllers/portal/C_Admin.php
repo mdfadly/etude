@@ -3338,9 +3338,9 @@ class C_Admin extends CI_Controller
         }
         $total_package = $pack_online[0]['total_package'];
         $count = intval($total_package) - intval(count($count_package));
-        $temp_event[] = "Total  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary" id="total_package">' . $count . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPackage" name="countPackage" value="' . $count . '">';
+        $temp_event[] = "Lesson Package :";
+        $temp_event[] = '<span class="badge badge-primary">' . $count . ' package(' . $count . ' meeting)</span>';
+        $temp_event[] = '<span id="total_package" class="badge badge-primary" style="display:none"> ' . $count  . ' lesson</span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -3366,9 +3366,9 @@ class C_Admin extends CI_Controller
         }
         $total_package = $pack_online[0]['total_package'];
         $count = intval($total_package) - intval(count($count_package));
-        $temp_event[] = "Total  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary" id="total_package">' . $count . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPackage" name="countPackage" value="' . $count . '">';
+        $temp_event[] = "Lesson Package :";
+        $temp_event[] = '<span class="badge badge-primary">' . $count . ' package(' . $count . ' meeting)</span>';
+        $temp_event[] = '<span id="total_package" class="badge badge-primary" style="display:none"> ' . $count  . ' lesson</span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -3387,9 +3387,9 @@ class C_Admin extends CI_Controller
         }
         $total_package = $pack_online[0]['total_package'];
         $count = intval($total_package) - intval(count($count_package));
-        $temp_event[] = "Total  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary" id="total_package">' . $count . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPackage" name="countPackage" value="' . $count . '">';
+        $temp_event[] = "Lesson Package :";
+        $temp_event[] = '<span class="badge badge-primary">' . $count . ' package(' . $count . ' meeting)</span>';
+        $temp_event[] = '<span id="total_package" class="badge badge-primary" style="display:none"> ' . $count  . ' lesson</span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -3421,15 +3421,16 @@ class C_Admin extends CI_Controller
         }
         $total_pack_pratical = $pack_online[0]['total_pack_practical'];
         $total_pack_theory = $pack_online[0]['total_pack_theory'];
-        $count1 = intval($total_pack_pratical) - intval(count($count_pratical));
-        $count2 = intval($total_pack_theory) - intval(count($count_theory));
-        $temp_event[] = "Total Practical  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary" id="total_practical_meet">' . $count1 . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPractical" name="countPractical" value="' . $count1 . '">';
+        $total_package_practical = round((intval($total_pack_pratical) - intval(count($count_pratical))) / 2);
+        $total_meeting_practical = intval($total_pack_pratical) - intval(count($count_pratical));
+        $total_package_theory = intval($total_pack_theory) - intval(count($count_theory));
+        $temp_event[] = "Practical Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_practical . ' package (' . $total_meeting_practical . ' meeting)</span>';
+        $temp_event[] = '<span id="total_practical_meet" class="badge badge-primary" style="display:none">' . $total_meeting_practical . ' lesson</span>';
         $temp_event[] = "<br>";
-        $temp_event[] = "Total Theory  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary" id="total_theory_meet">' . $count2 . ' lesson<span>';
-        $temp_event[] = '<input type="hidden" id="countTheory" name="countTheory" value="' . $count2 . '">';
+        $temp_event[] = "Theory Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_theory . ' package(' . $total_package_theory . ' meeting)</span>';
+        $temp_event[] = '<span id="total_theory_meet" class="badge badge-primary" style="display:none">' . $total_package_theory . ' lesson<span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -3461,15 +3462,16 @@ class C_Admin extends CI_Controller
         }
         $total_pack_pratical = $pack_online[0]['total_pack_practical'];
         $total_pack_theory = $pack_online[0]['total_pack_theory'];
-        $count1 = intval($total_pack_pratical) - intval(count($count_pratical));
-        $count2 = intval($total_pack_theory) - intval(count($count_theory));
-        $temp_event[] = "Total Practical  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary">' . $count1 . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPractical" name="countPractical" value="' . $count1 . '">';
+        $total_package_practical = round((intval($total_pack_pratical) - intval(count($count_pratical))) / 2);
+        $total_meeting_practical = intval($total_pack_pratical) - intval(count($count_pratical));
+        $total_package_theory = intval($total_pack_theory) - intval(count($count_theory));
+        $temp_event[] = "Practical Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_practical . ' package (' . $total_meeting_practical . ' meeting)</span>';
+        $temp_event[] = '<span id="total_practical_meet" class="badge badge-primary" style="display:none">' . $total_meeting_practical . ' lesson</span>';
         $temp_event[] = "<br>";
-        $temp_event[] = "Total Theory  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary">' . $count2 . ' lesson<span>';
-        $temp_event[] = '<input type="hidden" id="countTheory" name="countTheory" value="' . $count2 . '">';
+        $temp_event[] = "Theory Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_theory . ' package(' . $total_package_theory . ' meeting)</span>';
+        $temp_event[] = '<span id="total_theory_meet" class="badge badge-primary" style="display:none">' . $total_package_theory . ' lesson<span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -3497,15 +3499,16 @@ class C_Admin extends CI_Controller
         }
         $total_pack_pratical = $pack_online[0]['total_pack_practical'];
         $total_pack_theory = $pack_online[0]['total_pack_theory'];
-        $count1 = intval($total_pack_pratical) - intval(count($count_pratical));
-        $count2 = intval($total_pack_theory) - intval(count($count_theory));
-        $temp_event[] = "Total Practical  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary">' . $count1 . ' lesson</span>';
-        $temp_event[] = '<input type="hidden" id="countPractical" name="countPractical" value="' . $count1 . '">';
+        $total_package_practical = round((intval($total_pack_pratical) - intval(count($count_pratical))) / 2);
+        $total_meeting_practical = intval($total_pack_pratical) - intval(count($count_pratical));
+        $total_package_theory = intval($total_pack_theory) - intval(count($count_theory));
+        $temp_event[] = "Practical Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_practical . ' package (' . $total_meeting_practical . ' meeting)</span>';
+        $temp_event[] = '<span id="total_practical_meet" class="badge badge-primary" style="display:none">' . $total_meeting_practical . ' lesson</span>';
         $temp_event[] = "<br>";
-        $temp_event[] = "Total Theory  Lesson Package = ";
-        $temp_event[] = '<span class="badge badge-primary">' . $count2 . ' lesson<span>';
-        $temp_event[] = '<input type="hidden" id="countTheory" name="countTheory" value="' . $count2 . '">';
+        $temp_event[] = "Theory Lesson Package : ";
+        $temp_event[] = '<span class="badge badge-primary">' . $total_package_theory . ' package(' . $total_package_theory . ' meeting)</span>';
+        $temp_event[] = '<span id="total_theory_meet" class="badge badge-primary" style="display:none">' . $total_package_theory . ' lesson<span>';
 
         $event_join = implode(" ", $temp_event);
         echo $event_join;
@@ -5373,49 +5376,49 @@ class C_Admin extends CI_Controller
                 </td>
             </tr>
         <?php }
-            }
+    }
 
-            public function get_data_invoice_summary()
-            {
-                $periode = $_GET['periode'];
+    public function get_data_invoice_summary()
+    {
+        $periode = $_GET['periode'];
 
-                $invoice = $this->M_Admin->getData_schedule(null, $periode);
-                $invoice_temp_lesson = [];
-                foreach ($invoice as $n) {
-                    $invoice_temp_lesson[] = $n['id_parent'] . "-" . $n['parent_student'];
-                }
-                $invoice_temp_lesson = array_unique($invoice_temp_lesson);
-                $invoice_temp_lesson_im = implode(".", $invoice_temp_lesson);
-                $invoice_temp_lesson_ex = explode(".", $invoice_temp_lesson_im);
-                sort($invoice_temp_lesson_ex);
+        $invoice = $this->M_Admin->getData_schedule(null, $periode);
+        $invoice_temp_lesson = [];
+        foreach ($invoice as $n) {
+            $invoice_temp_lesson[] = $n['id_parent'] . "-" . $n['parent_student'];
+        }
+        $invoice_temp_lesson = array_unique($invoice_temp_lesson);
+        $invoice_temp_lesson_im = implode(".", $invoice_temp_lesson);
+        $invoice_temp_lesson_ex = explode(".", $invoice_temp_lesson_im);
+        sort($invoice_temp_lesson_ex);
 
 
 
-                if (!empty($invoice)) { ?>
+        if (!empty($invoice)) { ?>
             <div id="count_data" style="display:none;">
                 <?= count($invoice_temp_lesson_ex) ?>
             </div>
             <?php for ($i = 0; $i < count($invoice_temp_lesson_ex); $i++) :  ?>
                 <?php
-                                $temp_id_course = [];
-                                $temp_id_course = $this->M_Admin->getData_summary_invoice(substr($invoice_temp_lesson_ex[$i], 0, 6), $periode);
-                                $id_course = [];
-                                $nama_course = [];
-                                $name_student = [];
-                                $name_teacher = [];
-                                $date = [];
-                                $date2 = [];
-                                $fee = [];
-                                $tot_invoice = [];
-                                $get_payment_date = [];
-                                $payment_date = $this->M_Admin->getData_payment_date($periode, substr($invoice_temp_lesson_ex[$i], 0, 6));
-                                if (count($payment_date) > 0) :
-                                    $get_payment_date[substr($invoice_temp_lesson_ex[$i], 0, 6)] = $payment_date[0]['date'];
-                                else :
-                                    $get_payment_date[substr($invoice_temp_lesson_ex[$i], 0, 6)] = '';
-                                endif;
+                $temp_id_course = [];
+                $temp_id_course = $this->M_Admin->getData_summary_invoice(substr($invoice_temp_lesson_ex[$i], 0, 6), $periode);
+                $id_course = [];
+                $nama_course = [];
+                $name_student = [];
+                $name_teacher = [];
+                $date = [];
+                $date2 = [];
+                $fee = [];
+                $tot_invoice = [];
+                $get_payment_date = [];
+                $payment_date = $this->M_Admin->getData_payment_date($periode, substr($invoice_temp_lesson_ex[$i], 0, 6));
+                if (count($payment_date) > 0) :
+                    $get_payment_date[substr($invoice_temp_lesson_ex[$i], 0, 6)] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[substr($invoice_temp_lesson_ex[$i], 0, 6)] = '';
+                endif;
 
-                                ?>
+                ?>
                 <?php for ($z = 0; $z < count($temp_id_course); $z++) : ?>
                     <?php $id_course[] = $temp_id_course[$z]['id_course'] . "-" . $temp_id_course[$z]['nama_course'] . "-" . $temp_id_course[$z]['id_student'] . "-" . $temp_id_course[$z]['fee'] ?>
                     <?php $nama_course[] = $temp_id_course[$z]['nama_course'] ?>
@@ -5522,334 +5525,334 @@ class C_Admin extends CI_Controller
         <?php } ?>
     <?php    }
 
-        public function data_feereport()
-        {
-            $this->cekLogin();
-            $feereport = $this->M_Admin->getData_schedule();
-            $offline_trial = $this->M_Admin->getData_offline_trial();
-            $event_teacher = $this->M_Admin->getData_event_teacher();
-            $schedule_theory = $this->M_Admin->getData_schedule_theory();
-            $schedule_pratical = $this->M_Admin->getData_schedule_package_teacher();
+    public function data_feereport()
+    {
+        $this->cekLogin();
+        $feereport = $this->M_Admin->getData_schedule();
+        $offline_trial = $this->M_Admin->getData_offline_trial();
+        $event_teacher = $this->M_Admin->getData_event_teacher();
+        $schedule_theory = $this->M_Admin->getData_schedule_theory();
+        $schedule_pratical = $this->M_Admin->getData_schedule_package_teacher();
 
-            $feereport_temp = [];
-            foreach ($feereport as $n) {
-                $feereport_temp[] = substr($n['date'], 0, 7);
+        $feereport_temp = [];
+        foreach ($feereport as $n) {
+            $feereport_temp[] = substr($n['date'], 0, 7);
+        }
+
+        foreach ($offline_trial as $ot) {
+            $feereport_temp[] = substr($ot['date'], 0, 7);
+        }
+
+        foreach ($schedule_theory as $ot) {
+            $feereport_temp[] = substr($ot['date'], 0, 7);
+        }
+
+        foreach ($schedule_pratical as $ot) {
+            if ($ot['status'] == 2 || $ot['status'] == 4) {
+                $feereport_temp[] = substr($ot['date_schedule'], 0, 7);
             }
-
-            foreach ($offline_trial as $ot) {
-                $feereport_temp[] = substr($ot['date'], 0, 7);
+            if ($ot['status'] == 3 && $ot['date_update_cancel'] != null) {
+                $feereport_temp[] = substr($ot['date_update_cancel'], 0, 7);
             }
+        }
 
+        foreach ($event_teacher as $n) {
+            $temp_month =  substr($n['event_date'], 0, 7) . "-05";
+            $periode = substr($n['event_date'], 0, 7);
+            if (substr($n['event_date'], 0, 10) < $temp_month) {
+                $feereport_temp[] = substr($n['event_date'], 0, 7);
+            } else {
+                $startdate = strtotime("$periode");
+                $enddate = strtotime("+1 months", $startdate);
+                $temp_date =  date("Y-m", $enddate);
+
+                $feereport_temp[] = $temp_date;
+            }
+        }
+
+        $feereport_temp = array_unique($feereport_temp);
+        rsort($feereport_temp);
+
+        $title = "Data feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
+        $this->load->view('portal/admin/data_feereport', array('feereport_temp' => $feereport_temp));
+        $this->load->view('portal/reuse/footer');
+    }
+
+
+
+    public function data_feereport_offline()
+    {
+        $this->cekLogin();
+        $feereport = $this->M_Admin->getData_schedule();
+        $offline_trial = $this->M_Admin->getData_offline_trial();
+
+        $feereport_temp = [];
+        foreach ($feereport as $n) {
+            $feereport_temp[] = substr($n['date'], 0, 7);
+        }
+
+        foreach ($offline_trial as $ot) {
+            $feereport_temp[] = substr($ot['date'], 0, 7);
+        }
+
+        $feereport_temp = array_unique($feereport_temp);
+        $feereport_temp_im = implode(".", $feereport_temp);
+        $feereport_temp_ex = explode(".", $feereport_temp_im);
+        sort($feereport_temp_ex);
+
+        $title = "Data feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
+        $this->load->view('portal/admin/data_feereport_offline', array('feereport_temp' => $feereport_temp_ex));
+        $this->load->view('portal/reuse/footer');
+    }
+
+    public function data_feereport_online()
+    {
+        $this->cekLogin();
+        $title = "Data feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
+        $this->load->view('portal/admin/data_feereport_online');
+        $this->load->view('portal/reuse/footer');
+    }
+
+    public function data_feereport_periode($periode)
+    {
+        $this->cekLogin();
+        $id_schedule = null;
+        $id_offline_trial = null;
+        $feereport = $this->M_Admin->getData_schedule($id_schedule, $periode);
+        $offline_trial = $this->M_Admin->getData_offline_trial($id_offline_trial, $periode);
+        $event_teacher = $this->M_Admin->getData_event_teacher(null, null, $periode);
+        $schedule_theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
+        $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
+        $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
+        $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
+
+        $feereport_temp = [];
+        foreach ($feereport as $n) {
+            $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+
+        foreach ($offline_trial as $ot) {
+            $feereport_temp[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+        }
+        foreach ($event_teacher as $n) {
+            $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+
+        foreach ($schedule_theory as $ot) {
+            $feereport_temp[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+        }
+        foreach ($pack_online as $n) {
+            $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+        foreach ($pack_online_lesson_add as $n) {
+            $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+        foreach ($pack_online_lesson_cancel as $n) {
+            $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+
+        $feereport_temp = array_unique($feereport_temp);
+        sort($feereport_temp);
+
+        $title = "Data feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
+        $this->load->view('portal/admin/data_feereport_periode', array('feereport_temp' => $feereport_temp));
+        $this->load->view('portal/reuse/footer');
+    }
+
+    public function data_feereport_view($periode, $id_teacher)
+    {
+        $this->cekLogin();
+        $teacher = $this->M_Admin->getData_teacher($id_teacher);
+        $other_feereport = $this->M_Admin->getData_other_feereport($id_teacher, $periode);
+        $event_teacher = $this->M_Admin->getData_event_teacher(null, $id_teacher, $periode);
+        $offline_trial = $this->M_Admin->getData_offline_trial(null, $periode, $id_teacher);
+        $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
+        $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
+
+
+        $title = "Feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/admin/feereport', array('other_feereport' => $other_feereport, 'teacher' => $teacher, 'title' => $title, 'description' => $description, 'event_teacher' => $event_teacher, 'offline_trial' => $offline_trial, 'dollar' => $dollar, 'euro' => $euro));
+    }
+
+    public function data_feereport_summary($periode)
+    {
+        // $this->cekLogin();
+        $id_schedule = null;
+        $id_offline_trial = null;
+        $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
+        $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
+        $name_teacher = [];
+        $schedule = $this->M_Admin->getData_schedule(null, $periode);
+        if (count($schedule) > 0) {
+            foreach ($schedule as $ot) {
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+            }
+        }
+
+        $schedule_theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
+        if (count($schedule_theory) > 0) {
             foreach ($schedule_theory as $ot) {
-                $feereport_temp[] = substr($ot['date'], 0, 7);
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
-
-            foreach ($schedule_pratical as $ot) {
-                if ($ot['status'] == 2 || $ot['status'] == 4) {
-                    $feereport_temp[] = substr($ot['date_schedule'], 0, 7);
-                }
-                if ($ot['status'] == 3 && $ot['date_update_cancel'] != null) {
-                    $feereport_temp[] = substr($ot['date_update_cancel'], 0, 7);
-                }
-            }
-
-            foreach ($event_teacher as $n) {
-                $temp_month =  substr($n['event_date'], 0, 7) . "-05";
-                $periode = substr($n['event_date'], 0, 7);
-                if (substr($n['event_date'], 0, 10) < $temp_month) {
-                    $feereport_temp[] = substr($n['event_date'], 0, 7);
-                } else {
-                    $startdate = strtotime("$periode");
-                    $enddate = strtotime("+1 months", $startdate);
-                    $temp_date =  date("Y-m", $enddate);
-
-                    $feereport_temp[] = $temp_date;
-                }
-            }
-
-            $feereport_temp = array_unique($feereport_temp);
-            rsort($feereport_temp);
-
-            $title = "Data feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-            $this->load->view('portal/admin/data_feereport', array('feereport_temp' => $feereport_temp));
-            $this->load->view('portal/reuse/footer');
         }
 
-
-
-        public function data_feereport_offline()
-        {
-            $this->cekLogin();
-            $feereport = $this->M_Admin->getData_schedule();
-            $offline_trial = $this->M_Admin->getData_offline_trial();
-
-            $feereport_temp = [];
-            foreach ($feereport as $n) {
-                $feereport_temp[] = substr($n['date'], 0, 7);
+        $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
+        if (count($pack_online) > 0) {
+            foreach ($pack_online as $ot) {
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
+        }
+        $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
+        if (count($pack_online_lesson_add) > 0) {
+            foreach ($pack_online_lesson_add as $ot) {
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+            }
+        }
+        $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
+        if (count($pack_online_lesson_cancel) > 0) {
+            foreach ($pack_online_lesson_cancel as $ot) {
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+            }
+        }
 
+        // $schedule_pratical = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode);
+        // if (count($schedule_pratical) > 0) {
+        //     foreach ($schedule_pratical as $ot) {
+        //         $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+        //     }
+        // }
+
+        $offline_trial = $this->M_Admin->getData_offline_trial($id_offline_trial, $periode);
+
+        $feereport_temp_trial = [];
+        $summary_feereport_trial = [];
+        $feereport_temp_trial_ex = [];
+        $get_payment_date = [];
+
+
+        if (count($offline_trial) > 0) {
             foreach ($offline_trial as $ot) {
-                $feereport_temp[] = substr($ot['date'], 0, 7);
+                $feereport_temp_trial[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
+            $feereport_temp_trial = array_unique($feereport_temp_trial);
+            $feereport_temp_trial_im = implode(".", $feereport_temp_trial);
+            $feereport_temp_trial_ex = explode(".", $feereport_temp_trial_im);
+            sort($feereport_temp_trial_ex);
 
-            $feereport_temp = array_unique($feereport_temp);
-            $feereport_temp_im = implode(".", $feereport_temp);
-            $feereport_temp_ex = explode(".", $feereport_temp_im);
-            sort($feereport_temp_ex);
 
-            $title = "Data feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-            $this->load->view('portal/admin/data_feereport_offline', array('feereport_temp' => $feereport_temp_ex));
-            $this->load->view('portal/reuse/footer');
+            for ($i = 0; $i < count($feereport_temp_trial_ex); $i++) {
+                $payment_date = $this->M_Admin->getData_payment_date($periode, substr($feereport_temp_trial_ex[$i], 0, 6));
+                if (count($payment_date) > 0) :
+                    $get_payment_date[substr($feereport_temp_trial_ex[$i], 0, 6)] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[substr($feereport_temp_trial_ex[$i], 0, 6)] = '';
+                endif;
+                $temp_sumot = $this->M_Admin->getData_summary_feereport_offline_trial(substr($feereport_temp_trial_ex[$i], 0, 6), $periode);
+                if (count($temp_sumot) > 0) {
+                    $summary_feereport_trial[$feereport_temp_trial_ex[$i]] = $temp_sumot;
+                }
+            }
         }
 
-        public function data_feereport_online()
-        {
-            $this->cekLogin();
-            $title = "Data feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-            $this->load->view('portal/admin/data_feereport_online');
-            $this->load->view('portal/reuse/footer');
-        }
+        $other_feereport = $this->M_Admin->getData_other_feereport(null, $periode);
+        $event_teacher = $this->M_Admin->getData_event_teacher(null, null, $periode);
 
-        public function data_feereport_periode($periode)
-        {
-            $this->cekLogin();
-            $id_schedule = null;
-            $id_offline_trial = null;
-            $feereport = $this->M_Admin->getData_schedule($id_schedule, $periode);
-            $offline_trial = $this->M_Admin->getData_offline_trial($id_offline_trial, $periode);
-            $event_teacher = $this->M_Admin->getData_event_teacher(null, null, $periode);
-            $schedule_theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
-            $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
-            $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
-            $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
+        $id_teacher_others = [];
+        $data_other_teacher = [];
+        $data_other_teacher_count = [];
+        $count_other_teacher = [];
 
-            $feereport_temp = [];
-            foreach ($feereport as $n) {
-                $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        if (count($other_feereport) > 0) {
+            foreach ($other_feereport as $n) {
+                $id_teacher_others[] = $n['id_teacher'];
+                $count_other_teacher[] = $n['id_teacher'];
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
-
-            foreach ($offline_trial as $ot) {
-                $feereport_temp[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-            }
-            foreach ($event_teacher as $n) {
-                $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            }
-
-            foreach ($schedule_theory as $ot) {
-                $feereport_temp[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-            }
-            foreach ($pack_online as $n) {
-                $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            }
-            foreach ($pack_online_lesson_add as $n) {
-                $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            }
-            foreach ($pack_online_lesson_cancel as $n) {
-                $feereport_temp[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            }
-
-            $feereport_temp = array_unique($feereport_temp);
-            sort($feereport_temp);
-
-            $title = "Data feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-            $this->load->view('portal/admin/data_feereport_periode', array('feereport_temp' => $feereport_temp));
-            $this->load->view('portal/reuse/footer');
-        }
-
-        public function data_feereport_view($periode, $id_teacher)
-        {
-            $this->cekLogin();
-            $teacher = $this->M_Admin->getData_teacher($id_teacher);
-            $other_feereport = $this->M_Admin->getData_other_feereport($id_teacher, $periode);
-            $event_teacher = $this->M_Admin->getData_event_teacher(null, $id_teacher, $periode);
-            $offline_trial = $this->M_Admin->getData_offline_trial(null, $periode, $id_teacher);
-            $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
-            $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
-
-
-            $title = "Feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/admin/feereport', array('other_feereport' => $other_feereport, 'teacher' => $teacher, 'title' => $title, 'description' => $description, 'event_teacher' => $event_teacher, 'offline_trial' => $offline_trial, 'dollar' => $dollar, 'euro' => $euro));
-        }
-
-        public function data_feereport_summary($periode)
-        {
-            // $this->cekLogin();
-            $id_schedule = null;
-            $id_offline_trial = null;
-            $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
-            $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
-            $name_teacher = [];
-            $schedule = $this->M_Admin->getData_schedule(null, $periode);
-            if (count($schedule) > 0) {
-                foreach ($schedule as $ot) {
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-            }
-
-            $schedule_theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
-            if (count($schedule_theory) > 0) {
-                foreach ($schedule_theory as $ot) {
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-            }
-
-            $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
-            if (count($pack_online) > 0) {
-                foreach ($pack_online as $ot) {
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-            }
-            $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
-            if (count($pack_online_lesson_add) > 0) {
-                foreach ($pack_online_lesson_add as $ot) {
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-            }
-            $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
-            if (count($pack_online_lesson_cancel) > 0) {
-                foreach ($pack_online_lesson_cancel as $ot) {
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-            }
-
-            // $schedule_pratical = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode);
-            // if (count($schedule_pratical) > 0) {
-            //     foreach ($schedule_pratical as $ot) {
-            //         $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-            //     }
-            // }
-
-            $offline_trial = $this->M_Admin->getData_offline_trial($id_offline_trial, $periode);
-
-            $feereport_temp_trial = [];
-            $summary_feereport_trial = [];
-            $feereport_temp_trial_ex = [];
-            $get_payment_date = [];
-
-
-            if (count($offline_trial) > 0) {
-                foreach ($offline_trial as $ot) {
-                    $feereport_temp_trial[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-                $feereport_temp_trial = array_unique($feereport_temp_trial);
-                $feereport_temp_trial_im = implode(".", $feereport_temp_trial);
-                $feereport_temp_trial_ex = explode(".", $feereport_temp_trial_im);
-                sort($feereport_temp_trial_ex);
-
-
-                for ($i = 0; $i < count($feereport_temp_trial_ex); $i++) {
-                    $payment_date = $this->M_Admin->getData_payment_date($periode, substr($feereport_temp_trial_ex[$i], 0, 6));
-                    if (count($payment_date) > 0) :
-                        $get_payment_date[substr($feereport_temp_trial_ex[$i], 0, 6)] = $payment_date[0]['date'];
-                    else :
-                        $get_payment_date[substr($feereport_temp_trial_ex[$i], 0, 6)] = '';
-                    endif;
-                    $temp_sumot = $this->M_Admin->getData_summary_feereport_offline_trial(substr($feereport_temp_trial_ex[$i], 0, 6), $periode);
-                    if (count($temp_sumot) > 0) {
-                        $summary_feereport_trial[$feereport_temp_trial_ex[$i]] = $temp_sumot;
-                    }
-                }
-            }
-
-            $other_feereport = $this->M_Admin->getData_other_feereport(null, $periode);
-            $event_teacher = $this->M_Admin->getData_event_teacher(null, null, $periode);
-
-            $id_teacher_others = [];
-            $data_other_teacher = [];
-            $data_other_teacher_count = [];
-            $count_other_teacher = [];
-
-            if (count($other_feereport) > 0) {
-                foreach ($other_feereport as $n) {
-                    $id_teacher_others[] = $n['id_teacher'];
-                    $count_other_teacher[] = $n['id_teacher'];
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-                $id_teacher_others = array_unique($id_teacher_others);
-                sort($id_teacher_others);
-                for ($i = 0; $i < count($id_teacher_others); $i++) {
-                    $payment_date = $this->M_Admin->getData_payment_date($periode, $id_teacher_others[$i]);
-                    if (count($payment_date) > 0) :
-                        $get_payment_date[$id_teacher_others[$i]] = $payment_date[0]['date'];
-                    else :
-                        $get_payment_date[$id_teacher_others[$i]] = '';
-                    endif;
-                    $data_temp = $this->M_Admin->getData_other_feereport($id_teacher_others[$i], $periode);
-                    foreach ($data_temp as $n) {
-                        $data_other_teacher[] = $n['id_teacher'] . "-Others-" . $n['other_note'] . "-" . $n['other_price'];
-                        $data_other_teacher_count[$id_teacher_others[$i]][] = $n['other_price'];
-                    }
-                }
-            }
-
-            if (count($event_teacher) > 0) {
-                foreach ($event_teacher as $n) {
-                    $id_teacher_others[] = $n['id_teacher'];
-                    $count_other_teacher[] = $n['id_teacher'];
-                    $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
-                $id_teacher_others = array_unique($id_teacher_others);
-                sort($id_teacher_others);
-                for ($i = 0; $i < count($id_teacher_others); $i++) {
-                    $payment_date = $this->M_Admin->getData_payment_date($periode, $id_teacher_others[$i]);
-                    if (count($payment_date) > 0) :
-                        $get_payment_date[$id_teacher_others[$i]] = $payment_date[0]['date'];
-                    else :
-                        $get_payment_date[$id_teacher_others[$i]] = '';
-                    endif;
-                    $data_temp = $this->M_Admin->getData_event_teacher(null, $id_teacher_others[$i], $periode);
-                    foreach ($data_temp as $n) {
-                        $data_other_teacher[] = $n['id_teacher'] . "-Events-" . $n['event_name'] . "-" . $n['price'];
-                        $data_other_teacher_count[$id_teacher_others[$i]][] = $n['price'];
-                    }
-                }
-            }
-
-            for ($i = 0; $i < count($count_other_teacher); $i++) {
-                $data_temp = $this->M_Admin->getData_teacher($count_other_teacher[$i]);
+            $id_teacher_others = array_unique($id_teacher_others);
+            sort($id_teacher_others);
+            for ($i = 0; $i < count($id_teacher_others); $i++) {
+                $payment_date = $this->M_Admin->getData_payment_date($periode, $id_teacher_others[$i]);
+                if (count($payment_date) > 0) :
+                    $get_payment_date[$id_teacher_others[$i]] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[$id_teacher_others[$i]] = '';
+                endif;
+                $data_temp = $this->M_Admin->getData_other_feereport($id_teacher_others[$i], $periode);
                 foreach ($data_temp as $n) {
-                    $count_other_teacher[$i] = $n['id_teacher'] . "-" . $n['name_teacher'];
+                    $data_other_teacher[] = $n['id_teacher'] . "-Others-" . $n['other_note'] . "-" . $n['other_price'];
+                    $data_other_teacher_count[$id_teacher_others[$i]][] = $n['other_price'];
                 }
             }
-            sort($count_other_teacher);
-            sort($data_other_teacher);
-            for ($i = 0; $i < count($data_other_teacher); $i++) {
-                $data_other_teacher[$i] = $data_other_teacher[$i] . "-" . $count_other_teacher[$i];
-            }
-
-            // echo var_dump($id_teacher_others) . "<br>";
-            // echo var_dump($data_other_teacher) . "<br>";
-            // echo var_dump($count_other_teacher) . "<br>";
-            // echo var_dump($data_other_teacher_count) . "<br>";
-            // echo var_dump($get_payment_date) . "<br>";
-
-            $title = "Data feereport | Portal Etude";
-            $description = "Welcome to Portal Etude";
-            $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-            $this->load->view('portal/admin/data_feereport_summary', array('feereport_temp_trial' => $feereport_temp_trial_ex, 'summary_feereport_trial' => $summary_feereport_trial, 'id_teacher_others' => $id_teacher_others, 'data_other_teacher' => $data_other_teacher, 'count_other_teacher' => $count_other_teacher, 'data_other_teacher_count' => $data_other_teacher_count, 'get_payment_date' => $get_payment_date, 'name_teacher' => $name_teacher, 'dollar' => $dollar, 'euro' => $euro));
-            $this->load->view('portal/reuse/footer');
         }
 
-        public function get_data_feereport_summary_offline($periode)
-        {
-            // $periode = $_GET['periode'];
-            $feereport = $this->M_Admin->getData_schedule(null, $periode);
-            $feereport_temp_lesson = [];
-            foreach ($feereport as $n) {
-                $feereport_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        if (count($event_teacher) > 0) {
+            foreach ($event_teacher as $n) {
+                $id_teacher_others[] = $n['id_teacher'];
+                $count_other_teacher[] = $n['id_teacher'];
+                $name_teacher[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
-            $feereport_temp_lesson = array_unique($feereport_temp_lesson);
-            sort($feereport_temp_lesson); ?>
+            $id_teacher_others = array_unique($id_teacher_others);
+            sort($id_teacher_others);
+            for ($i = 0; $i < count($id_teacher_others); $i++) {
+                $payment_date = $this->M_Admin->getData_payment_date($periode, $id_teacher_others[$i]);
+                if (count($payment_date) > 0) :
+                    $get_payment_date[$id_teacher_others[$i]] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[$id_teacher_others[$i]] = '';
+                endif;
+                $data_temp = $this->M_Admin->getData_event_teacher(null, $id_teacher_others[$i], $periode);
+                foreach ($data_temp as $n) {
+                    $data_other_teacher[] = $n['id_teacher'] . "-Events-" . $n['event_name'] . "-" . $n['price'];
+                    $data_other_teacher_count[$id_teacher_others[$i]][] = $n['price'];
+                }
+            }
+        }
+
+        for ($i = 0; $i < count($count_other_teacher); $i++) {
+            $data_temp = $this->M_Admin->getData_teacher($count_other_teacher[$i]);
+            foreach ($data_temp as $n) {
+                $count_other_teacher[$i] = $n['id_teacher'] . "-" . $n['name_teacher'];
+            }
+        }
+        sort($count_other_teacher);
+        sort($data_other_teacher);
+        for ($i = 0; $i < count($data_other_teacher); $i++) {
+            $data_other_teacher[$i] = $data_other_teacher[$i] . "-" . $count_other_teacher[$i];
+        }
+
+        // echo var_dump($id_teacher_others) . "<br>";
+        // echo var_dump($data_other_teacher) . "<br>";
+        // echo var_dump($count_other_teacher) . "<br>";
+        // echo var_dump($data_other_teacher_count) . "<br>";
+        // echo var_dump($get_payment_date) . "<br>";
+
+        $title = "Data feereport | Portal Etude";
+        $description = "Welcome to Portal Etude";
+        $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
+        $this->load->view('portal/admin/data_feereport_summary', array('feereport_temp_trial' => $feereport_temp_trial_ex, 'summary_feereport_trial' => $summary_feereport_trial, 'id_teacher_others' => $id_teacher_others, 'data_other_teacher' => $data_other_teacher, 'count_other_teacher' => $count_other_teacher, 'data_other_teacher_count' => $data_other_teacher_count, 'get_payment_date' => $get_payment_date, 'name_teacher' => $name_teacher, 'dollar' => $dollar, 'euro' => $euro));
+        $this->load->view('portal/reuse/footer');
+    }
+
+    public function get_data_feereport_summary_offline($periode)
+    {
+        // $periode = $_GET['periode'];
+        $feereport = $this->M_Admin->getData_schedule(null, $periode);
+        $feereport_temp_lesson = [];
+        foreach ($feereport as $n) {
+            $feereport_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
+        $feereport_temp_lesson = array_unique($feereport_temp_lesson);
+        sort($feereport_temp_lesson); ?>
 
         <?php if (!empty($feereport)) : ?>
             <div id="count_data" style="display:none;">
@@ -5865,13 +5868,13 @@ class C_Admin extends CI_Controller
                 <?php $fee = []; ?>
                 <?php $tot_fee_teacher = []; ?>
                 <?php
-                                $payment_date = $this->M_Admin->getData_payment_date($periode, substr($feereport_temp_lesson[$i], 0, 6));
-                                if (count($payment_date) > 0) :
-                                    $get_payment_date[substr($feereport_temp_lesson[$i], 0, 6)] = $payment_date[0]['date'];
-                                else :
-                                    $get_payment_date[substr($feereport_temp_lesson[$i], 0, 6)] = '';
-                                endif;
-                                ?>
+                $payment_date = $this->M_Admin->getData_payment_date($periode, substr($feereport_temp_lesson[$i], 0, 6));
+                if (count($payment_date) > 0) :
+                    $get_payment_date[substr($feereport_temp_lesson[$i], 0, 6)] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[substr($feereport_temp_lesson[$i], 0, 6)] = '';
+                endif;
+                ?>
                 <?php for ($z = 0; $z < count($temp_id_course); $z++) : ?>
                     <?php $id_course[] = $temp_id_course[$z]['id_course'] . "-" . $temp_id_course[$z]['nama_course'] . "-" . $temp_id_course[$z]['id_student'] . "-" . $temp_id_course[$z]['fee'] . "-" . $temp_id_course[$z]['instrument'] . "-" . $temp_id_course[$z]['name_student'] ?>
                     <?php $instrument[] = $temp_id_course[$z]['instrument'] ?>
@@ -5988,43 +5991,43 @@ class C_Admin extends CI_Controller
         <?php endif; ?>
     <?php  }
 
-        public function get_data_feereport_summary_online($periode)
-        {
-            // $periode = $_GET['periode'];
-            $online_temp_lesson = [];
-            $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
-            $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
-            $theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
-            foreach ($theory as $n) {
-                $online_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            }
+    public function get_data_feereport_summary_online($periode)
+    {
+        // $periode = $_GET['periode'];
+        $online_temp_lesson = [];
+        $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
+        $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
+        $theory = $this->M_Admin->getData_schedule_theory(null, null, $periode);
+        foreach ($theory as $n) {
+            $online_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        }
 
-            $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
-            if (count($pack_online) > 0) {
-                foreach ($pack_online as $ot) {
-                    $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
+        $pack_online = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 2);
+        if (count($pack_online) > 0) {
+            foreach ($pack_online as $ot) {
+                $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
-            $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
-            if (count($pack_online_lesson_add) > 0) {
-                foreach ($pack_online_lesson_add as $ot) {
-                    $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
+        }
+        $pack_online_lesson_add = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 4);
+        if (count($pack_online_lesson_add) > 0) {
+            foreach ($pack_online_lesson_add as $ot) {
+                $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
-            $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
-            if (count($pack_online_lesson_cancel) > 0) {
-                foreach ($pack_online_lesson_cancel as $ot) {
-                    $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
-                }
+        }
+        $pack_online_lesson_cancel = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode, null, null, 3);
+        if (count($pack_online_lesson_cancel) > 0) {
+            foreach ($pack_online_lesson_cancel as $ot) {
+                $online_temp_lesson[] = $ot['id_teacher'] . "-" . $ot['name_teacher'];
             }
+        }
 
-            $pratical = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode);
-            // foreach ($pratical as $n) {
-            //     $online_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
-            // }
+        $pratical = $this->M_Admin->getData_schedule_package_teacher(null, null, $periode);
+        // foreach ($pratical as $n) {
+        //     $online_temp_lesson[] = $n['id_teacher'] . "-" . $n['name_teacher'];
+        // }
 
-            $online_temp_lesson = array_unique($online_temp_lesson);
-            sort($online_temp_lesson); ?>
+        $online_temp_lesson = array_unique($online_temp_lesson);
+        sort($online_temp_lesson); ?>
 
         <?php if (!empty($theory) || !empty($pratical) || !empty($pack_online) || !empty($pack_online_lesson_add) || !empty($pack_online_lesson_cancel)) : ?>
             <!-- <?= count($online_temp_lesson) ?> -->
@@ -6039,13 +6042,13 @@ class C_Admin extends CI_Controller
                 <?php $tot_fee_teacher = []; ?>
 
                 <?php
-                                $payment_date = $this->M_Admin->getData_payment_date($periode, $online_temp_lesson_ex[$i][0]);
-                                if (count($payment_date) > 0) :
-                                    $get_payment_date[$online_temp_lesson_ex[$i][0]] = $payment_date[0]['date'];
-                                else :
-                                    $get_payment_date[$online_temp_lesson_ex[$i][0]] = '';
-                                endif;
-                                ?>
+                $payment_date = $this->M_Admin->getData_payment_date($periode, $online_temp_lesson_ex[$i][0]);
+                if (count($payment_date) > 0) :
+                    $get_payment_date[$online_temp_lesson_ex[$i][0]] = $payment_date[0]['date'];
+                else :
+                    $get_payment_date[$online_temp_lesson_ex[$i][0]] = '';
+                endif;
+                ?>
 
                 <?php $temp_id_course_theory = $this->M_Admin->getData_schedule_theory_idcourse($online_temp_lesson_ex[$i][0], $periode); ?>
 
@@ -6357,15 +6360,15 @@ class C_Admin extends CI_Controller
         <?php endif; ?>
     <?php    }
 
-        public function get_data_feereport_teacher_offline()
-        {
-            $periode = $_GET['periode'];
-            $id_teacher = $_GET['id_teacher'];
-            $temp_id_course = $this->M_Admin->getData_summary_feereport($id_teacher, $periode);
+    public function get_data_feereport_teacher_offline()
+    {
+        $periode = $_GET['periode'];
+        $id_teacher = $_GET['id_teacher'];
+        $temp_id_course = $this->M_Admin->getData_summary_feereport($id_teacher, $periode);
 
-            $id_course = [];
-            $date2 = [];
-            $tot_feereport = []; ?>
+        $id_course = [];
+        $date2 = [];
+        $tot_feereport = []; ?>
         <?php if (count($temp_id_course) > 0) : ?>
             <?php for ($z = 0; $z < count($temp_id_course); $z++) : ?>
                 <?php $id_course[] = $temp_id_course[$z]['id_course'] . "-" . $temp_id_course[$z]['id_student'] . "-" .  $temp_id_course[$z]['name_student'] . "-" . $temp_id_course[$z]['fee']; ?>
@@ -6494,17 +6497,17 @@ class C_Admin extends CI_Controller
                 </td>
             </tr>
         <?php endif;
-            }
+    }
 
-            public function get_data_feereport_teacher_online($periode, $id_teacher)
-            {
-                // $periode = $_GET['periode'];
-                // $id_teacher = $_GET['id_teacher'];
-                $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
-                $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
-                $id_course = [];
-                $date2 = [];
-                $tot_feereport = []; ?>
+    public function get_data_feereport_teacher_online($periode, $id_teacher)
+    {
+        // $periode = $_GET['periode'];
+        // $id_teacher = $_GET['id_teacher'];
+        $dollar = $this->M_Admin->getData_ConvertDollar(null, $periode);
+        $euro = $this->M_Admin->getData_ConvertEuro(null, $periode);
+        $id_course = [];
+        $date2 = [];
+        $tot_feereport = []; ?>
         <?php $temp_id_course_theory = $this->M_Admin->getData_schedule_theory_idcourse($id_teacher, $periode); ?>
         <?php for ($z = 0; $z < count($temp_id_course_theory); $z++) : ?>
             <?php $id_course[] = $temp_id_course_theory[$z]['id_course'] . "-" . $temp_id_course_theory[$z]['id_student'] . "-" . $temp_id_course_theory[$z]['fee'] . "-" . $temp_id_course_theory[$z]['instrument'] . "-" . $temp_id_course_theory[$z]['name_student'] . "-course" ?>

@@ -23,8 +23,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = 'http://192.168.100.9/etudemc';
-$config['base_url'] = 'https://dev.etudemc.id';
+$config['base_url'] = 'http://localhost/devetudemc';
+// $config['base_url'] = 'https://dev.etudemc.id';
 /*
 |--------------------------------------------------------------------------
 | Index File

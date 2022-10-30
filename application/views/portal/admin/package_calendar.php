@@ -13,23 +13,23 @@
         border: 1px solid #eee;
         border-left-width: 5px;
         border-radius: 3px;
+    }
 
-        h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
+    .callout h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+    .callout p:last-child {
+        margin-bottom: 0;
+    }
 
-        code {
-            border-radius: 3px;
-        }
+    .callout code {
+        border-radius: 3px;
+    }
 
-        &+.bs-callout {
-            margin-top: -5px;
-        }
+    .callout .bs-callout {
+        margin-top: -5px;
     }
 
     .callout-primary {
@@ -92,8 +92,8 @@
                         <?= date_format($date_created, "j F Y"); ?> - <?= date_format($date_end, "j F Y"); ?>
                     </div>
                     <p class="pt-2" id="counter_pack">
-                        Practical Lesson Package : <span class="badge badge-primary"> <?= round((intval($pack_online[0]['total_pack_practical']) - intval(count($count_pratical))) / 2) ?> package (<?= intval($pack_online[0]['total_pack_practical']) - intval(count($count_pratical)) ?> meeting)</span> <br>
-                        Theory Lesson Package : <span class="badge badge-primary"> <?= intval($pack_online[0]['total_pack_theory']) - intval(count($count_theory)) ?> package (<?= intval($pack_online[0]['total_pack_theory']) - intval(count($count_theory)) ?> meeting)</span>
+                        Practical Lesson Package : <span class="badge badge-primary"> <?= round((intval($pack_online[0]['total_pack_practical']) - intval(count($count_pratical_pick))) / 2) ?> package (<?= intval($pack_online[0]['total_pack_practical']) - intval(count($count_pratical_pick)) ?> meeting)</span> <br>
+                        Theory Lesson Package : <span class="badge badge-primary"> <?= intval($pack_online[0]['total_pack_theory']) - intval(count($count_theory_pick)) ?> package (<?= intval($pack_online[0]['total_pack_theory']) - intval(count($count_theory_pick)) ?> meeting)</span>
                     </p>
                     <p class="hiden">
                         <span id="total_practical_meet" class="badge badge-primary" style="display:none"> <?= intval($pack_online[0]['total_pack_practical']) - intval(count($count_pratical_pick)) ?> lesson</span>
@@ -129,26 +129,17 @@
                                 <div class="form-group">
                                     <label for="jenis">Type of Class</label>
                                     <select class="form-control" id="jenis_select" name="jenis_select" onchange="myFunction(event)" required>
-                                        <?php if (count($count_pratical_pick) != $pack_online[0]['total_pack_practical']) : ?>
+                                        <?php if (count($count_pratical_pick) < $pack_online[0]['total_pack_practical']) : ?>
                                             <option value="1">Practical</option>
                                         <?php endif; ?>
-                                        <?php if (count($count_theory_pick) != $pack_online[0]['total_pack_theory']) : ?>
-                                            <option value="2">Theory</option>
+                                        <?php if (count($count_theory_pick) < $pack_online[0]['total_pack_theory']) : ?>
                                         <?php endif; ?>
+                                        <option value="2">Theory</option>
                                     </select>
                                     <input type="hidden" class="form-control" name="jenis" value="1" id="jenis" aria-describedby="jenis_form">
                                     <input type="hidden" class="form-control" name="date" id="date" aria-describedby="date_form">
                                 </div>
                                 <input type="hidden" class="form-control" name="status" value="1" id="status" aria-describedby="status_form">
-                                <!-- <div class="form-group">
-                                    <label for="status">status</label>
-                                    <select class="form-control" id="status_select" onchange="myFunction2(event)">
-                                        <option value="1">Undone</option>
-                                        <option value="2">done</option>
-                                        <option value="3">Cancel</option>
-                                    </select>
-                                    <input type="hidden" class="form-control" name="status" value="1" id="status" aria-describedby="status_form">
-                                </div> -->
                                 <button id="btn_insert" class="btn btn-primary btn-block">Save</button>
                                 <!-- </form> -->
                             </div>
@@ -164,6 +155,7 @@
                             </div>
                             <div id="modalBody" class="modal-body">
                                 <!-- <form action="#" method="POST"> -->
+                                <input type="hidden" class="form-control" name="jenis_before" id="jenis_before">
                                 <div class="form-group">
                                     <label for="jenis">Type of Class</label>
                                     <select class="form-control" id="jenis_select_update" name="jenis_select_update" onchange="myFunction3(event)" required>
@@ -435,6 +427,7 @@
                 }
                 $("#jenis_select_update").html(form_select);
                 var date_event = event.date;
+                document.getElementById("jenis_before").value = event.jenis;
                 document.getElementById("status_update").value = event.status;
                 document.getElementById("jenis_update").value = event.jenis;
                 document.getElementById("date_update").value = date_event.slice(0, 10);
@@ -468,18 +461,52 @@
         },
     });
     $('#btn_insert').click(function() {
+        let prac_meet = document.getElementById("total_practical_meet").innerHTML;
+        let theory_meet = document.getElementById("total_theory_meet").innerHTML;
         var jenis = $("#jenis_select").val();
-        if (jenis != null) {
-            insertData();
-        } else {
-            alert('Sudah Tidak Ada Packet');
+
+        if (jenis === '1') {
+            if (prac_meet.replace(/\D/g, "") > 0) {
+                insertData();
+            } else {
+                alert('Package Practical Completed!');
+            }
+        }
+        if (jenis === '2') {
+            if (theory_meet.replace(/\D/g, "") > 0) {
+                insertData();
+            } else {
+                alert('Package Theory Completed!');
+            }
         }
         document.getElementById("date").value = "";
         $('#calendarModalAdd').modal('hide');
     });
 
     $('#btn_update').click(function() {
-        updateData();
+        let prac_meet = document.getElementById("total_practical_meet").innerHTML;
+        let theory_meet = document.getElementById("total_theory_meet").innerHTML;
+        var jenis = $("#jenis_select_update").val();
+        var jenis_before = $("#jenis_before").val();
+
+        if (jenis_before !== jenis) {
+            if (jenis === '1') {
+                if (prac_meet.replace(/\D/g, "") > 0) {
+                    updateData();
+                } else {
+                    alert('Update Failed! Package Practical Completed!');
+                }
+            }
+            if (jenis === '2') {
+                if (theory_meet.replace(/\D/g, "") > 0) {
+                    updateData();
+                } else {
+                    alert('Update Failed! Package Theory Completed!');
+                }
+            }
+        } else {
+            updateData();
+        }
         document.getElementById("date_update").value = "";
         document.getElementById("id_schedule_online_update").value = "";
         $('#calendarModalUpdate').modal('hide');
@@ -711,7 +738,7 @@
                 calendar.fullCalendar('refetchEvents');
                 alert("Added Successfully");
                 $("#counter_pack").html(data);
-                location.reload();
+                // location.reload();
             }
         });
     }
@@ -745,7 +772,7 @@
                 calendar.fullCalendar('refetchEvents');
                 alert("Updated Successfully");
                 $("#counter_pack").html(data);
-                location.reload();
+                // location.reload();
             }
         });
     }
@@ -766,7 +793,7 @@
                 alert("Deleted Successfully");
                 $("#counter_pack").html(data);
                 $('.fc-day[data-date=' + tgl + ']').css('background-color', '#FFFFFF');
-                location.reload();
+                // location.reload();
             }
         });
     }
