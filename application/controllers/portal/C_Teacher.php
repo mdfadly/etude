@@ -835,7 +835,7 @@ class C_Teacher extends CI_Controller
             $total_50 = $cek_sirkulasi[0]['total_50'];
             $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-            if ($total_50 >= 4) {
+            if ($total_50 >= 10) {
                 if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                     $data_update_sirkulasi = array(
                         'rate_created_at' => $created_at,
@@ -1637,11 +1637,7 @@ class C_Teacher extends CI_Controller
                     $color = '#EB1AE0';
                 }
                 if ($row['status'] == 2) {
-                    if (fmod($z++, 2) == 1) {
-                        $title = 'Lesson ' . $x . ' a';
-                    } else {
-                        $title = 'Lesson ' . $x++ . ' b';
-                    }
+                    $title = 'Lesson ' . $x++;
                     $color = '#DE7CD9';
                 }
                 if ($row['status'] == 3) {
@@ -1664,11 +1660,7 @@ class C_Teacher extends CI_Controller
             }
             if ($row['status'] == 3 && $row['date_update_cancel'] != NULL) {
                 $title = 'Reschedule';
-                if (fmod($z++, 2) == 1) {
-                    $title = 'Re - Lesson ' . $x . ' a';
-                } else {
-                    $title = 'Re - Lesson ' . $x++ . ' b';
-                }
+                $title = 'Re - Lesson ' . $x++;
                 $color = '#DE7CD9';
                 $temp_date = $row['date_update_cancel'];
             }
@@ -1980,12 +1972,11 @@ class C_Teacher extends CI_Controller
             $get_data_50_next_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail(null, null, $id_teacher, $id_student, $tipe, null, 50, $temp_period);
             //cek before periode
             $get_data_before_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_before($id_teacher, $id_student, $tipe, $created_at);
-            $get_data_after_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_after($id_teacher, $id_student, $tipe, $temp_period);
+            $get_data_after_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_after($id_teacher, $id_student, $tipe, $created_at);
             if (count($get_data_50_next_periode) > 0) {
                 $cek_sirkulasi_next_periode = $this->M_Teacher->getData_sirkulasi_lesson(null, $get_data_50_next_periode[0]['no_sirkulasi_lesson'], $id_teacher, $id_student, $tipe);
             }
-
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -2081,7 +2072,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 4) {
+                    if ($total_50 >= 10) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -2165,7 +2156,7 @@ class C_Teacher extends CI_Controller
 
             $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
                 if (count($get_data_50_next_periode) > 0) {
                     $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                     $data = array(
@@ -2304,12 +2295,12 @@ class C_Teacher extends CI_Controller
         $get_data_50_next_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail(null, null, $id_teacher, $id_student, $tipe, null, 50, $temp_period);
         //cek before periode
         $get_data_before_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_before($id_teacher, $id_student, $tipe, $created_at);
-        $get_data_after_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_after($id_teacher, $id_student, $tipe, $temp_period);
+        $get_data_after_periode = $this->M_Teacher->getData_sirkulasi_lesson_detail_after($id_teacher, $id_student, $tipe, $created_at);
         if (count($get_data_50_next_periode) > 0) {
             $cek_sirkulasi_next_periode = $this->M_Teacher->getData_sirkulasi_lesson(null, $get_data_50_next_periode[0]['no_sirkulasi_lesson'], $id_teacher, $id_student, $tipe);
         }
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
             if (count($cek_sirkulasi) > 0) {
                 $data_update_sirkulasi = null;
                 $total = $cek_sirkulasi[0]['total'];
@@ -2405,7 +2396,7 @@ class C_Teacher extends CI_Controller
                 $total_50 = $cek_sirkulasi[0]['total_50'];
                 $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                if ($total_50 >= 4) {
+                if ($total_50 >= 10) {
                     if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                         $data_update_sirkulasi = array(
                             'rate_created_at' => $created_at,
@@ -2489,7 +2480,7 @@ class C_Teacher extends CI_Controller
 
         $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
             if (count($get_data_50_next_periode) > 0) {
                 $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                 $data = array(
@@ -2763,7 +2754,7 @@ class C_Teacher extends CI_Controller
             }
 
             if ($tipe == 1) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) > 8) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
                     if (count($cek_sirkulasi) > 0) {
                         $data_update_sirkulasi = null;
                         $total = $cek_sirkulasi[0]['total'];
@@ -2861,7 +2852,7 @@ class C_Teacher extends CI_Controller
                         $total_50 = $cek_sirkulasi[0]['total_50'];
                         $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                        if ($total_50 >= 8) {
+                        if ($total_50 >= 20) {
                             if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                                 $data_update_sirkulasi = array(
                                     'rate_created_at' => $created_at,
@@ -2911,7 +2902,7 @@ class C_Teacher extends CI_Controller
             }
 
             if ($tipe == 2) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) > 4) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
                     if (count($cek_sirkulasi) > 0) {
                         $data_update_sirkulasi = null;
                         $total = $cek_sirkulasi[0]['total'];
@@ -3007,7 +2998,7 @@ class C_Teacher extends CI_Controller
                         $total_50 = $cek_sirkulasi[0]['total_50'];
                         $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                        if ($total_50 >= 4) {
+                        if ($total_50 >= 10) {
                             if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                                 $data_update_sirkulasi = array(
                                     'rate_created_at' => $created_at,
@@ -3112,7 +3103,7 @@ class C_Teacher extends CI_Controller
             $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
             if ($tipe == 1) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) > 8) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
                     if (count($get_data_50_next_periode) > 0) {
                         $price_next_periode = ($get_data_50_next_periode[0]['price_idr'] - 100000) / 2;
                         $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
@@ -3134,7 +3125,7 @@ class C_Teacher extends CI_Controller
                 }
             }
             if ($tipe == 2) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) > 4) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
                     if (count($get_data_50_next_periode) > 0) {
                         $price_next_periode = 100000;
                         $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
@@ -3299,7 +3290,7 @@ class C_Teacher extends CI_Controller
         }
 
         if ($tipe == 1) {
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 8) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -3397,7 +3388,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 8) {
+                    if ($total_50 >= 20) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -3447,7 +3438,7 @@ class C_Teacher extends CI_Controller
         }
 
         if ($tipe == 2) {
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -3543,7 +3534,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 4) {
+                    if ($total_50 >= 10) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -3627,7 +3618,7 @@ class C_Teacher extends CI_Controller
 
         $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 4) {
+        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
             if (count($get_data_50_next_periode) > 0) {
                 $price_next_periode = $get_data_50_next_periode[0]['price_idr'] - 100000;
                 $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);

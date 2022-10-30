@@ -51,11 +51,11 @@
                 <div class="text-right">
                     <?php $date = date_create($this->uri->segment(6)); ?>
                     <?php
-                        $startdate = strtotime($this->uri->segment(6));
-                        $enddate = strtotime("-1 months", $startdate);
-                        $temp_date =  date("F", $enddate);
-                        $temp_year =  date("Y", $enddate);
-                        ?>
+                    $startdate = strtotime($this->uri->segment(6));
+                    $enddate = strtotime("-1 months", $startdate);
+                    $temp_date =  date("F", $enddate);
+                    $temp_year =  date("Y", $enddate);
+                    ?>
                     <?php $date_invoice = date_format(date_create(substr($sirkulasi[0]['created_at'], 0, 10)), "d M Y") ?>
                     <?php $link = site_url() . "portal/invoice/purchase/etude/" . md5($sirkulasi[0]['no_transaksi']) ?>
                     <a id="btn_cancel_attendance" target="_blank" href="https://api.whatsapp.com/send?phone=62<?= substr($ortu[0]['phone_parent_1'], 1) ?>&text=Thank%20you%20so%20much%20for%20being%20our%20loyal%20customer.%20You%20can%20access%20the%20invoice%20for%20(<?= $date_invoice ?>)%20lesson%20in%20here%20:%20<?= $link ?>%20.%20Please%20write%20student's%20name%20on%20transfer%20description.%20Thank%20You." class="btn btn-success">
@@ -269,14 +269,14 @@
                                     </td>
                                 </tr>
                             <?php endfor; ?>
-                            <?php if(count($offline_discount_coupon)>0): ?>
-                                <tr style="background-color:#FFFFF">
+                            <?php if (count($offline_discount_coupon) > 0) : ?>
+                                <tr style="background-color: '#FFFFF'">
                                     <td colspan="6" class="text-center">
                                         <select class="form-control" name="offline_discount_coupon" id="offline_discount_coupon" onchange="offlineDiscount(event)">
-                                            <?php if(count($other_offline_lesson_discount) == 0): ?>
+                                            <?php if (count($other_offline_lesson_discount) == 0) : ?>
                                                 <option value="">--- Choose Discount ---</option>
                                             <?php endif; ?>
-                                            <?php foreach($offline_discount_coupon as $dc): ?>
+                                            <?php foreach ($offline_discount_coupon as $dc) : ?>
                                                 <option value="<?= $dc['value_discount'] ?>|<?= $dc['jenis_discount'] ?>|<?= $dc['id_discount'] ?>"><?= $dc['detail_discount'] ?></option>
                                             <?php endforeach; ?>
                                         </select>
@@ -286,7 +286,7 @@
                                             <p style="text-align:left;">
                                                 <?= $currency ?>
                                                 <span style="float:right;">
-                                                    <?php if(count($other_offline_lesson_discount) > 0): ?>
+                                                    <?php if (count($other_offline_lesson_discount) > 0) : ?>
                                                         <?php $price_discount_offline_lesson = $other_offline_lesson_discount[0]['price'] ?>
                                                     <?php endif; ?>
                                                     <input type="hidden" class="form-control" id="value_discount_coupon" name="value_discount_coupon" value="<?= $price_discount_offline_lesson ?>">
@@ -306,8 +306,8 @@
                                         <p style="text-align:left;">
                                             <?= $currency ?>
                                             <span style="float:right;">
-                                                <input type="hidden" class="form-control" id="total_price_offline_lesson" name="total_price_offline_lesson" value="<?= $total_rate_lesson_offline-$price_discount_offline_lesson ?>">
-                                                <input style="background-color:#E8F6EF; color:black; text-align:right; border:0; font-size:20px; margin-top:-35px; padding:0; font-weight:bold" type="text" disabled class="form-control" id="total_price_offline_lesson_format" name="total_price_offline_lesson_format" value="<?= number_format($total_rate_lesson_offline-$price_discount_offline_lesson, 0, ',', '.') ?>">
+                                                <input type="hidden" class="form-control" id="total_price_offline_lesson" name="total_price_offline_lesson" value="<?= $total_rate_lesson_offline - $price_discount_offline_lesson ?>">
+                                                <input style="background-color:#E8F6EF; color:black; text-align:right; border:0; font-size:20px; margin-top:-35px; padding:0; font-weight:bold" type="text" disabled class="form-control" id="total_price_offline_lesson_format" name="total_price_offline_lesson_format" value="<?= number_format($total_rate_lesson_offline - $price_discount_offline_lesson, 0, ',', '.') ?>">
                                             </span>
                                         </p>
                                     </h5>
@@ -466,8 +466,8 @@
                                             <?= $temp_other_discount_lesson[$i][2] ?>% for <?= $temp_other_discount_lesson[$i][3] ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php $tot_other_invoice += -($temp_other_discount_lesson[$i][4]) ?>
-                                            <?php $parents_invoice_others_category += -($temp_other_discount_lesson[$i][4]) ?>
+                                            <?php $tot_other_invoice += - ($temp_other_discount_lesson[$i][4]) ?>
+                                            <?php $parents_invoice_others_category += - ($temp_other_discount_lesson[$i][4]) ?>
                                             <span class="text-danger" style="font-weight:bold">
                                                 - <?= $currency ?> <?= number_format($temp_other_discount_lesson[$i][4], 0, ',', '.'); ?>
                                             </span>
@@ -489,8 +489,8 @@
                                             <?= $temp_other_discount_event[$i][2] ?>% for <?= $temp_other_discount_event[$i][3] ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php $tot_other_invoice += -($temp_other_discount_event[$i][5]) ?>
-                                            <?php $parents_invoice_others_category += -($temp_other_discount_event[$i][5]) ?>
+                                            <?php $tot_other_invoice += - ($temp_other_discount_event[$i][5]) ?>
+                                            <?php $parents_invoice_others_category += - ($temp_other_discount_event[$i][5]) ?>
                                             <span class="text-danger" style="font-weight:bold">
                                                 - <?= $currency ?> <?= number_format($temp_other_discount_event[$i][5], 0, ',', '.'); ?>
                                             </span>
@@ -512,8 +512,8 @@
                                             <?= $temp_other_discount_book[$i][2] ?>% for <?= $temp_other_discount_book[$i][3] ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php $tot_other_invoice += -($temp_other_discount_book[$i][5]) ?>
-                                            <?php $parents_invoice_others_category += -($temp_other_discount_book[$i][5]) ?>
+                                            <?php $tot_other_invoice += - ($temp_other_discount_book[$i][5]) ?>
+                                            <?php $parents_invoice_others_category += - ($temp_other_discount_book[$i][5]) ?>
                                             <span class="text-danger" style="font-weight:bold">
                                                 - <?= $currency ?> <?= number_format($temp_other_discount_book[$i][5], 0, ',', '.'); ?>
                                             </span>
@@ -538,23 +538,23 @@
                                                 </select>
                                             <?php else : ?>
                                                 <?php switch ($oi['other_category']) {
-                                                                case "1":
-                                                                    echo "Overpayment";
-                                                                    break;
-                                                                case "2":
-                                                                    echo "Underpayment";
-                                                                    break;
-                                                                case "3":
-                                                                    echo "Overdue";
-                                                                    break;
-                                                                case "4":
-                                                                    echo "Discount";
-                                                                    break;
-                                                                case "5":
-                                                                    echo "Others";
-                                                                    break;
-                                                            } ?>
-                                                <?php endif; ?>
+                                                    case "1":
+                                                        echo "Overpayment";
+                                                        break;
+                                                    case "2":
+                                                        echo "Underpayment";
+                                                        break;
+                                                    case "3":
+                                                        echo "Overdue";
+                                                        break;
+                                                    case "4":
+                                                        echo "Discount";
+                                                        break;
+                                                    case "5":
+                                                        echo "Others";
+                                                        break;
+                                                } ?>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if (substr($this->session->userdata('id'), 0, 1) == "3") : ?>
@@ -638,9 +638,9 @@
                             <p style="text-align:left;">
                                 <?= $currency ?>
                                 <span style="float:right;" id="total_rate_rupiah">
-                                    <?php if(count($other_offline_lesson_discount) > 0): ?>
+                                    <?php if (count($other_offline_lesson_discount) > 0) : ?>
                                         <?= number_format(intval($total_rate_lesson) + intval($total_rate_lesson_offline) - intval($other_offline_lesson_discount[0]['price']) + intval($total_rate_book) + intval($total_rate_event) + intval($parents_invoice_others_category), 0, ',', '.'); ?>
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <?= number_format(intval($total_rate_lesson) + intval($total_rate_lesson_offline) + intval($total_rate_book) + intval($total_rate_event) + intval($parents_invoice_others_category), 0, ',', '.'); ?>
                                     <?php endif; ?>
                                 </span>
@@ -699,7 +699,7 @@
     <script src="<?= base_url('assets/js/jquery-3.4.0.min.js'); ?>"></script>
     <script>
         $(document).ready(function() {
-            <?php if(count($other_offline_lesson_discount) > 0): ?>
+            <?php if (count($other_offline_lesson_discount) > 0) : ?>
                 document.getElementById("offline_discount_coupon").value = "<?= $other_offline_lesson_discount[0]['value_discount'] ?>|<?= $other_offline_lesson_discount[0]['jenis_discount'] ?>|<?= $other_offline_lesson_discount[0]['id_discount'] ?>";
             <?php endif; ?>
             var x = window.matchMedia("(max-width: 768px)");
@@ -714,9 +714,9 @@
                 }
             };
 
-            
+
         });
-        
+
         <?php if (count($other_invoice) > 0) : ?>
             <?php foreach ($other_invoice as $oi) : ?>
                 document.getElementById("other_category<?= $oi['id_other_invoice'] ?>").value = '<?= $oi['other_category'] ?>';
@@ -724,7 +724,7 @@
                 var other_price<?= $oi['id_other_invoice'] ?> = document.getElementById('other_price<?= $oi['id_other_invoice'] ?>').value;
                 document.getElementById('rupiah_other_price<?= $oi['id_other_invoice'] ?>').value = convertToRupiah(other_price<?= $oi['id_other_invoice'] ?>);
 
-                var discount_coupon_price =  document.getElementById('value_discount_coupon').value;
+                var discount_coupon_price = document.getElementById('value_discount_coupon').value;
 
                 var total_rate_rupiah = parseInt(<?= $total_rate_lesson ?>) + parseInt(<?= $total_rate_lesson_offline ?>) + parseInt(<?= $total_rate_book ?>) + parseInt(<?= $total_rate_event ?>) + parseInt(<?= $parents_invoice_others_category ?>) - discount_coupon_price;
 
@@ -806,10 +806,10 @@
             let tot_price_offlesson = <?= $total_rate_lesson_offline ?>;
             let total_rate_rupiah = parseInt(<?= $total_rate_lesson ?>) + parseInt(<?= $total_rate_lesson_offline ?>) + parseInt(<?= $total_rate_book ?>) + parseInt(<?= $total_rate_event ?>) + parseInt(<?= $parents_invoice_others_category ?>);
             let price = 0;
-            if(temp_val != ""){
-                if(tempArr[1] == 1){
+            if (temp_val != "") {
+                if (tempArr[1] == 1) {
                     price = tot_price_offlesson * tempArr[0] / 100;
-                }else{
+                } else {
                     price = tempArr[0];
                 }
             }
@@ -831,8 +831,7 @@
                     "id_parent": "<?= $ortu[0]['id_parent'] ?>",
                     "no_transaksi": "<?= $this->uri->segment(4) ?>"
                 },
-                success: function(data) {
-                }
+                success: function(data) {}
             });
         }
 

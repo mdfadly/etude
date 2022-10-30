@@ -13,23 +13,23 @@
         border: 1px solid #eee;
         border-left-width: 5px;
         border-radius: 3px;
+    }
 
-        h4 {
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
+    .callout h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+    .callout p:last-child {
+        margin-bottom: 0;
+    }
 
-        code {
-            border-radius: 3px;
-        }
+    .callout code {
+        border-radius: 3px;
+    }
 
-        &+.bs-callout {
-            margin-top: -5px;
-        }
+    .callout.bs-callout {
+        margin-top: -5px;
     }
 
     .callout-primary {
@@ -246,11 +246,6 @@
 </script>
 <script>
     var calendar = $('#calendar').fullCalendar({
-        <?php
-        $startdate = strtotime(substr($pack_online[0]['created_at'], 0, 10));
-        $enddate = strtotime("+5 months", $startdate);
-        $temp_date =  date("Y-m-d", $enddate);
-        ?>
         height: 650,
         firstDay: 1,
         dayMaxEvents: 1,

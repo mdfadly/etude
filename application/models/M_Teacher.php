@@ -1156,7 +1156,7 @@ class M_Teacher extends CI_Model
 
         if ($periode_after != null) {
             if (substr('sl.lesson_date', 0, 10) != "0000-00-00") {
-                $this->db->where('sl.lesson_date >=', "$periode_after");
+                $this->db->where('sl.lesson_date >', "$periode_after");
             }
         }
 
