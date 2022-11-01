@@ -1459,6 +1459,7 @@ class M_Admin extends CI_Model
             'created_at' => $today,
             'end_at' => $temp_date,
             'created_by' => $this->session->userdata('id'),
+            'teacher_percentage' => $this->input->post('teacher_percentage'),
         ];
 
         // echo var_dump($data);
@@ -1896,6 +1897,7 @@ class M_Admin extends CI_Model
             'created_at' => $today,
             'end_at' => $temp_date,
             'created_by' => $this->session->userdata('id'),
+            'teacher_percentage' => $this->input->post('teacher_percentage'),
         ];
 
         $this->db->insert('list_package', $data);

@@ -2515,6 +2515,15 @@ class C_Admin extends CI_Controller
         echo json_encode($cek_paket);
     }
 
+    public function getDataFeePercentage()
+    {
+        // $id_student = '1000011';
+        $id_student = $_POST['id_student'];
+
+        $data_student = $this->M_Admin->getData_student($id_student);
+        echo json_encode($data_student[0]['teacher_percentage']);
+    }
+
     public function convert()
     {
         $this->cekLogin();

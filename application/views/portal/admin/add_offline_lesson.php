@@ -82,6 +82,10 @@
                         <label for="">Duration</label>
                         <input type="text" class="form-control" readonly id="duration" name="duration">
                     </div>
+                    <div class="form-group">
+                        <label for="pack_theory">Teacher Fee Percentage</label>
+                        <input type="number" class="form-control" id="teacher_percentage" value="0" required name="teacher_percentage">
+                    </div>
 
                     <br />
                     <h5 style="font-weight:bold">Data Package</h5>
@@ -160,6 +164,18 @@
                     html += `<option value="${data[i].id_paket}&${data[i].price_idr}&${data[i].price_dollar}&${data[i].price_euro}&${data[i].duration}">${data[i].name_paket}</option>`
                 }
                 $('#paket').html(html);
+            }
+        });
+        $.ajax({
+            url: "<?= base_url('portal/C_Admin/getDataFeePercentage') ?>",
+            dataType: "JSON",
+            type: "POST",
+            data: {
+                'id_student': temp_val,
+            },
+            success: function(data) {
+                console.log(data)
+                document.getElementById("teacher_percentage").value = data;
             }
         });
     }
