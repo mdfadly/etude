@@ -4229,4 +4229,11 @@ class M_Admin extends CI_Model
 
         return true;
     }
+
+    public function deleteDataFeeReport($no_sirkulasi)
+    {
+        $this->db->delete('sirkulasi_feereport_detail', ['no_sirkulasi_feereport' => $no_sirkulasi]);
+        $this->db->delete('sirkulasi_feereport', ['no_sirkulasi_feereport' => $no_sirkulasi]);
+        return true;
+    }
 }

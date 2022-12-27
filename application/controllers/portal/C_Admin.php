@@ -7155,7 +7155,7 @@ class C_Admin extends CI_Controller
                         $total_fee_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = $total_pack_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] * $id_student_paket_pratical_temp2[$i][3] * 2;
                         // $total_fee_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = $total_pack_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] * $id_student_paket_pratical_temp2[$i][3] * 50 / 100;
                         $temp = round(($tipe_rate50_paket_pratical_before[$id_student_paket_pratical_temp2[$i][7]] / 2) + ($tipe_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] / 2));
-                        $notes_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = "50%(" . $temp . "/4)";
+                        $notes_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = "50%(" . $temp . "/10)";
                     }
                 }
                 if ($id_student_paket_pratical_temp2[$i][4] == 70) {
@@ -7237,7 +7237,7 @@ class C_Admin extends CI_Controller
                     // $total_fee_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = $total_pack_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] * $id_student_paket_teory_temp2[$i][3] * 50 / 100;
                     $total_fee_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = $total_pack_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] * $id_student_paket_teory_temp2[$i][3];
                     $temp = round(($tipe_rate50_paket_teory_before[$id_student_paket_teory_temp2[$i][7]]) + ($tipe_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]]));
-                    $notes_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = "50%(" . $temp . "/4)";
+                    $notes_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = "50%(" . $temp . "/10)";
                 }
                 if ($id_student_paket_teory_temp2[$i][4] == 70) {
                     $temp_before_rate_paket_teory = $this->M_Admin->getData_sirkulasi_lesson_detail_before_periode(null, null, null, $id_student_paket_teory_temp2[$i][0], $id_student_paket_teory_temp2[$i][5], $periode, $id_student_paket_teory_temp2[$i][4], $id_student_paket_teory_temp2[$i][6]);
@@ -7297,7 +7297,7 @@ class C_Admin extends CI_Controller
                     // $total_fee_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = $total_pack_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] * $id_student_offline_lesson_temp2[$i][3] * 50 / 100;
                     $total_fee_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = $total_pack_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] * $id_student_offline_lesson_temp2[$i][3];
                     $temp = round(($tipe_rate50_offline_lesson_before[$id_student_offline_lesson_temp2[$i][7]]) + ($tipe_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]]));
-                    $notes_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = "50%(" . $temp . "/4)";
+                    $notes_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = "50%(" . $temp . "/10)";
                 }
                 if ($id_student_offline_lesson_temp2[$i][4] == 80) {
                     $temp_before_rate_offline_lesson = $this->M_Admin->getData_sirkulasi_lesson_detail_before_periode(null, null, null, $id_student_offline_lesson_temp2[$i][0], $id_student_offline_lesson_temp2[$i][5], $periode, $id_student_offline_lesson_temp2[$i][4], null, $id_student_offline_lesson_temp2[$i][6]);
@@ -8374,5 +8374,18 @@ class C_Admin extends CI_Controller
         ];
 
         $this->db->update('sirkulasi_feereport', $data, ['no_sirkulasi_feereport' => $no_sirkulasi_feereport]);
+    }
+
+    function delete_data_feereport($no_sirkulasi_feereport, $periode)
+    {
+        $no_sirkulasi = str_replace("-", "/", $no_sirkulasi_feereport);
+        $res = $this->M_Admin->deleteDataFeeReport($no_sirkulasi);
+        if ($res >= 1) {
+            $this->session->set_flashdata('success', 'Data successfully deleted');
+            redirect('portal/feereport/teacher/' . $periode);
+        } else {
+            $this->session->set_flashdata('warning', 'Failed to delete data');
+            redirect('portal/feereport/teacher/' . $periode);
+        }
     }
 }
