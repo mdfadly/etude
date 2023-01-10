@@ -184,6 +184,13 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="linkedin" class="col-12 col-lg-4 pt-lg-2 col-form-label">LinkedIn (Url) <span style="color:red;font-weight:bold;">*</span></label>
+                        <div class="col-12 col-lg-8">
+                            <input type="linkedin" class="form-control regist-form" required name="linkedin" id="linkedin">
+                            <small class="form-text">(www.linkedin.com/in/your-linkedin-account)</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="ktp" class="col-12 col-lg-4 pt-lg-2 col-form-label">Identity Card <span style="color:red;font-weight:bold;">*</span></label>
                         <div class="col-12 col-lg-8">
                             <input type="file" class="form-control-file regist-form" required name="ktp" id="ktp" accept=".png,.jpg,.jpeg">

@@ -153,6 +153,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-12 col-lg-2 col-form-label">Linkedin</label>
+                                    <div class="col-12 col-lg-9 pt-lg-2">
+                                        <a href='<?= $teacher[0]['linkedin'] ?>' target="_blank"><?= $teacher[0]['linkedin'] ?></a>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-12 col-lg-2 col-form-label">Phone No.</label>
                                     <div class="col-12 col-lg-9 pt-lg-2">
                                         <?= $teacher[0]['phone_teacher'] ?>

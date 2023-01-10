@@ -155,6 +155,13 @@
                             <small id="check-email" class="form-text"></small>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="linkedin" class="col-7 col-lg-3 pt-lg-2 col-form-label">Linkedin (Url) <span style="color:red;font-weight:bold;">*</span></label>
+                        <div class="col-12 col-lg-8">
+                            <input type="text" class="form-control regist-form" required value="<?= $teacher[0]['linkedin'] ?>" name="linkedin" id="linkedin">
+                            <small class="form-text">(www.linkedin.com/in/your-linkedin-account)</small>
+                        </div>
+                    </div>
                     <hr />
                     <h5 style="font-weight:bold">ADDRESS</h5>
                     <div class="form-group form-check">

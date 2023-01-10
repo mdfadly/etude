@@ -99,6 +99,7 @@ class C_Portal extends CI_Controller
             if ($instrument == "Others") {
                 $instrument = "Others|" . $this->input->post('others');
             }
+            $linkedin = $_POST['linkedin'];
             $credentials_teacher = $_POST['credentials'];
             $phone_teacher = $_POST['phone'];
             $email_teacher = $_POST['email'];
@@ -156,6 +157,7 @@ class C_Portal extends CI_Controller
                 'address_teacher' => $address_teacher,
                 'credentials_teacher' => $credentials_teacher,
                 'instrument' => $instrument,
+                'linkedin' => $linkedin,
                 'phone_teacher' => $phone_teacher,
                 'email_teacher' => $email_teacher,
                 'bank_teacher' => $bank_teacher,
