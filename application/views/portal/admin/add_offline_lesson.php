@@ -86,6 +86,16 @@
                         <label for="pack_theory">Teacher Fee Percentage</label>
                         <input type="number" class="form-control" id="teacher_percentage" value="0" required name="teacher_percentage">
                     </div>
+                    <div class="form-group">
+                        <label for="total_discount_rate">Potongan Fee Percentage</label>
+                        <input type="number" class="form-control" id="total_discount_rate" value="0" required name="total_discount_rate">
+                        <!-- <select class="form-control select-form" style="width:100%;" name="total_discount_rate">
+                            <option>--- Pilihan Potongan ---</option>
+                            <option value="0">Tidak ada potongan</option>
+                            <option value="4">4 potongan</option>
+                            <option value="10">10 potongan</option>
+                        </select> -->
+                    </div>
 
                     <br />
                     <h5 style="font-weight:bold">Data Package</h5>

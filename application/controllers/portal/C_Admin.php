@@ -6924,7 +6924,8 @@ class C_Admin extends CI_Controller
                     $id_student_nadia_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $rate_dollar[0]['rate_dollar'];
                 }
                 if ($n['tipe'] == 3) {
-                    $id_student_nadia_offline_lesson[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&3&" . $n['id_list_package_offline'] . "&" . $n['no_sirkulasi_lesson'];
+                    $potongan = $this->M_Admin->getData_list_package_offline($n['id_list_package_offline']);
+                    $id_student_nadia_offline_lesson[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&3&" . $n['id_list_package_offline'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $potongan[0]['total_discount_rate'] . "&" . $potongan[0]['price_paket'];
                 }
             } else {
                 $price_pack_temp = $n['price_idr'];
@@ -6941,11 +6942,12 @@ class C_Admin extends CI_Controller
                     $id_student_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp;
                 }
                 if ($n['tipe'] == 3) {
-                    $id_student_offline_lesson[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&3&" . $n['id_list_package_offline'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp;
+                    $potongan = $this->M_Admin->getData_list_package_offline($n['id_list_package_offline']);
+                    $id_student_offline_lesson[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&3&" . $n['id_list_package_offline'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp
+                        . "&" . $potongan[0]['total_discount_rate'] . "&" . $potongan[0]['price_paket'];
                 }
             }
         }
-
         $id_student_nadia_paket_pratical_temp = array_unique($id_student_nadia_paket_pratical);
         rsort($id_student_nadia_paket_pratical_temp);
 
@@ -7297,7 +7299,7 @@ class C_Admin extends CI_Controller
                     // $total_fee_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = $total_pack_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] * $id_student_offline_lesson_temp2[$i][3] * 50 / 100;
                     $total_fee_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = $total_pack_periode_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] * $id_student_offline_lesson_temp2[$i][3];
                     $temp = round(($tipe_rate50_offline_lesson_before[$id_student_offline_lesson_temp2[$i][7]]) + ($tipe_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]]));
-                    $notes_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = "50%(" . $temp . "/10)";
+                    $notes_rate50_offline_lesson[$id_student_offline_lesson_temp2[$i][7]] = "50%(" . $temp . "/" . $id_student_offline_lesson_temp2[$i][10] . ")";
                 }
                 if ($id_student_offline_lesson_temp2[$i][4] == 80) {
                     $temp_before_rate_offline_lesson = $this->M_Admin->getData_sirkulasi_lesson_detail_before_periode(null, null, null, $id_student_offline_lesson_temp2[$i][0], $id_student_offline_lesson_temp2[$i][5], $periode, $id_student_offline_lesson_temp2[$i][4], null, $id_student_offline_lesson_temp2[$i][6]);

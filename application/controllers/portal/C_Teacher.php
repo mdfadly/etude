@@ -1959,7 +1959,8 @@ class C_Teacher extends CI_Controller
             $temp_id_teacher = substr($id_teacher, 3);
             $tipe = 3;
             $tipe_rate = '';
-
+            $potongan = $this->input->post('potongan');
+            $price_paket = $this->input->post('price_paket');
             //nomor sirkulasi lesson
             //LESS/002/015/3 => tipe offline lesson
 
@@ -1978,7 +1979,7 @@ class C_Teacher extends CI_Controller
             if (count($get_data_50_next_periode) > 0) {
                 $cek_sirkulasi_next_periode = $this->M_Teacher->getData_sirkulasi_lesson(null, $get_data_50_next_periode[0]['no_sirkulasi_lesson'], $id_teacher, $id_student, $tipe);
             }
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -2074,7 +2075,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 10) {
+                    if ($total_50 >= $potongan) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -2127,7 +2128,8 @@ class C_Teacher extends CI_Controller
                     $tipe_rate = 50;
                     $data = array(
                         'rate' => $teacher_percentage,
-                        'price' => $price * $teacher_percentage / 100,
+                        'price' => $price_paket * $teacher_percentage / 100,
+                        // 'price' => $price * $teacher_percentage / 100,
                     );
                     $this->M_Teacher->updateDataSirkulasiLessonDetail($data, $get_data_50_next_periode[0]['id_sirkulasi_lesson_detail']);
                 } else {
@@ -2143,7 +2145,7 @@ class C_Teacher extends CI_Controller
                 'id_list_package_offline' => $id_list_package_offline,
                 'tipe' => $tipe,
                 'rate' => $tipe_rate,
-                'price' => $price * $tipe_rate / 100,
+                'price' => $price_paket * $tipe_rate / 100,
                 'paket' => $paket,
             );
             $this->M_Teacher->addDataSirkulasiLessonDetail($data_sirkulasi_lesson_detail);
@@ -2158,16 +2160,16 @@ class C_Teacher extends CI_Controller
 
             $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
                 if (count($get_data_50_next_periode) > 0) {
                     $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                     $data = array(
-                        'price' => $sirkulasi_detail_after[0]['price'] - ($price * 50 / 100) + ($price * $teacher_percentage / 100),
+                        'price' => $sirkulasi_detail_after[0]['price'] - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100),
                     );
                     $this->db->update('sirkulasi_feereport_detail', $data, ['id' => $sirkulasi_detail_after[0]['id']]);
 
-                    $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price * 50 / 100) + ($price * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
-                    $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price * 50 / 100) + ($price * $teacher_percentage / 100);
+                    $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
+                    $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100);
                     $data2 =  [
                         'price' => $price_temp_feereport,
                         'total_price' => $price_temp_feereport - $discount,
@@ -2179,7 +2181,7 @@ class C_Teacher extends CI_Controller
 
             $data2 = [];
             $data3 = [];
-            $price = $price * $tipe_rate / 100;
+            $price = $price_paket * $tipe_rate / 100;
             if (count($data_sirkulasi_feereport) == 0) {
                 $data2 =  [
                     'no_sirkulasi_feereport' => $no_sirkulasi_feereport,
@@ -2282,6 +2284,8 @@ class C_Teacher extends CI_Controller
         $temp_id_teacher = substr($id_teacher, 3);
         $tipe = 3;
         $tipe_rate = '';
+        $potongan = $this->input->post('potongan');
+        $price_paket = $this->input->post('price_paket');
 
         //nomor sirkulasi lesson
         //LESS/002/015/1 => tipe online lesson
@@ -2302,7 +2306,7 @@ class C_Teacher extends CI_Controller
             $cek_sirkulasi_next_periode = $this->M_Teacher->getData_sirkulasi_lesson(null, $get_data_50_next_periode[0]['no_sirkulasi_lesson'], $id_teacher, $id_student, $tipe);
         }
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
             if (count($cek_sirkulasi) > 0) {
                 $data_update_sirkulasi = null;
                 $total = $cek_sirkulasi[0]['total'];
@@ -2398,7 +2402,7 @@ class C_Teacher extends CI_Controller
                 $total_50 = $cek_sirkulasi[0]['total_50'];
                 $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                if ($total_50 >= 10) {
+                if ($total_50 >= $potongan) {
                     if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                         $data_update_sirkulasi = array(
                             'rate_created_at' => $created_at,
@@ -2451,7 +2455,8 @@ class C_Teacher extends CI_Controller
                 $tipe_rate = 50;
                 $data = array(
                     'rate' => $teacher_percentage,
-                    'price' => $price * $teacher_percentage / 100,
+                    'price' => $price_paket * $teacher_percentage / 100,
+                    // 'price' => $price * $teacher_percentage / 100,
                 );
                 $this->M_Teacher->updateDataSirkulasiLessonDetail($data, $get_data_50_next_periode[0]['id_sirkulasi_lesson_detail']);
             } else {
@@ -2468,7 +2473,7 @@ class C_Teacher extends CI_Controller
             'tipe' => $tipe,
             'rate' => $tipe_rate,
             'paket' => $paket,
-            'price' => $price,
+            'price' => $price_paket,
         );
         $this->M_Teacher->addDataSirkulasiLessonDetail($data_sirkulasi_lesson_detail);
 
@@ -2482,16 +2487,16 @@ class C_Teacher extends CI_Controller
 
         $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
             if (count($get_data_50_next_periode) > 0) {
                 $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                 $data = array(
-                    'price' => $sirkulasi_detail_after[0]['price'] - ($price * 50 / 100) + ($price * $teacher_percentage / 100),
+                    'price' => $sirkulasi_detail_after[0]['price'] - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100),
                 );
                 $this->db->update('sirkulasi_feereport_detail', $data, ['id' => $sirkulasi_detail_after[0]['id']]);
 
-                $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price * 50 / 100) + ($price * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
-                $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price * 50 / 100) + ($price * $teacher_percentage / 100);
+                $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
+                $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_paket * 50 / 100) + ($price_paket * $teacher_percentage / 100);
                 $data2 =  [
                     'price' => $price_temp_feereport,
                     'total_price' => $price_temp_feereport - $discount,
@@ -2503,7 +2508,7 @@ class C_Teacher extends CI_Controller
 
         $data2 = [];
         $data3 = [];
-        $price = $price * $tipe_rate / 100;
+        $price = $price_paket * $tipe_rate / 100;
         if (count($data_sirkulasi_feereport) == 0) {
             $data2 =  [
                 'no_sirkulasi_feereport' => $no_sirkulasi_feereport,

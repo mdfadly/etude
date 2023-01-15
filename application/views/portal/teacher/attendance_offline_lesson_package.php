@@ -359,6 +359,9 @@
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
 
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket = <?= $pack_online[0]['price_paket'] ?>;
+
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/update_schedule_package_offline') ?>",
             type: "POST",
@@ -373,6 +376,8 @@
                 'paket': paket,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket': price_paket,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchEvents');
@@ -473,6 +478,8 @@
             price = "<?= $pack_online[0]['price_dollar'] ?>";
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket = <?= $pack_online[0]['price_paket'] ?>;
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/reschedule_package_offline') ?>",
             type: "POST",
@@ -486,6 +493,8 @@
                 'id_list_package_offline': id_list_package_offline,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket': price_paket,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchResources');
@@ -640,7 +649,8 @@
             price = "<?= $pack_online[0]['price_dollar'] ?>";
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
-
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket = <?= $pack_online[0]['price_paket'] ?>;
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/reschedule_package_offline') ?>",
             type: "POST",
@@ -654,6 +664,8 @@
                 'id_list_package_offline': id_list_package_offline,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket': price_paket,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchResources');

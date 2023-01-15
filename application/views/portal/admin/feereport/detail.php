@@ -464,7 +464,7 @@
                                         <?= $total_pack_offline ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php $total_fee_offline = $temp_id_student_offline_lesson_temp[$i][9] ?>
+                                        <?php $total_fee_offline = $temp_id_student_offline_lesson_temp[$i][11] ?>
                                         <?= "Rp " . number_format($total_fee_offline, 0, ',', '.'); ?>
                                     </td>
                                     <td class="text-center">
@@ -606,8 +606,8 @@
                                                 Event - <?= $temp_other_discount_event[$i][4] ?>
                                             </td>
                                             <td class="text-center">
-                                                <?php $tot_other_invoice += -($temp_other_discount_event[$i][2]) ?>
-                                                <?php $teacher_fee_others_category += -($temp_other_discount_event[$i][2]) ?>
+                                                <?php $tot_other_invoice += - ($temp_other_discount_event[$i][2]) ?>
+                                                <?php $teacher_fee_others_category += - ($temp_other_discount_event[$i][2]) ?>
                                                 <span class="text-danger" style="font-weight:bold">
                                                     - Rp <?= number_format($temp_other_discount_event[$i][2], 0, ',', '.'); ?>
                                                 </span>
@@ -647,17 +647,17 @@
                                                     </select>
                                                 <?php else : ?>
                                                     <?php switch ($oi['other_category']) {
-                                                                        case "1":
-                                                                            echo "Bonus";
-                                                                            break;
-                                                                        case "2":
-                                                                            echo "Cashback";
-                                                                            break;
-                                                                        case "3":
-                                                                            echo "Potongan";
-                                                                            break;
-                                                                    } ?>
-                                                    <?php endif; ?>
+                                                        case "1":
+                                                            echo "Bonus";
+                                                            break;
+                                                        case "2":
+                                                            echo "Cashback";
+                                                            break;
+                                                        case "3":
+                                                            echo "Potongan";
+                                                            break;
+                                                    } ?>
+                                                <?php endif; ?>
                                             </td>
                                             <td class="text-center">
                                                 <?php if (substr($this->session->userdata('id'), 0, 1) == "3") : ?>
@@ -736,7 +736,7 @@
 
                 <?php if (count($id_student_nadia_online_temp) > 0) : ?>
                     <?php $euro = 0;
-                        $dollar = 0; ?>
+                    $dollar = 0; ?>
                     <?php for ($i = 0; $i < count($id_student_nadia_online_temp); $i++) : ?>
                         <?php $temp_id_student_nadia_online_temp[$i] = explode("&", $id_student_nadia_online_temp[$i]); ?>
                         <?php if ($temp_id_student_nadia_online_temp[$i][7] == '2') : ?>
@@ -1035,7 +1035,7 @@
                 var other_price<?= $oi['id_other_feereport'] ?> = document.getElementById('other_price<?= $oi['id_other_feereport'] ?>').value;
                 document.getElementById('rupiah_other_price<?= $oi['id_other_feereport'] ?>').value = convertToRupiah(other_price<?= $oi['id_other_feereport'] ?>);
 
-                var total_feereport = parseInt(<?= $teacher_fee_online_lesson ?>) + parseInt(<?= $teacher_fee_offline_lesson ?>) -parseInt(<?= $total_rate_event ?>) + parseInt(<?= $teacher_fee_others_category ?>);
+                var total_feereport = parseInt(<?= $teacher_fee_online_lesson ?>) + parseInt(<?= $teacher_fee_offline_lesson ?>) - parseInt(<?= $total_rate_event ?>) + parseInt(<?= $teacher_fee_others_category ?>);
 
                 document.getElementById('total_feereport').innerHTML = convertToRupiah(total_feereport);
                 document.getElementById('teacher_fee_others_category').innerHTML = convertToRupiah(parseInt(<?= $teacher_fee_others_category ?>));

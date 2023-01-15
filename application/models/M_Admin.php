@@ -1445,17 +1445,22 @@ class M_Admin extends CI_Model
             }
         }
 
+        $price_paket = $this->input->post('rate_package') / $total_package;
+        $discount_price_paket = $price_paket - ($price_paket * 10 / 100);
+
         $data =  [
             'no_transaksi_package_offline' => $no_transaksi_package . "/" . $z,
             'id_student' => $this->input->post('id_student'),
             'id_teacher' => $id_teacher,
             'instrument' =>  $instrument,
             'paket' => $this->input->post('temp_paket'),
+            'price_paket' => $discount_price_paket,
             'total_package' => $total_package,
             'rate_dollar' => $this->input->post('rate_dollar'),
             'rate' => $this->input->post('rate'),
             'discount' => $this->input->post('discount'),
             'rate_package' => $this->input->post('rate_package'),
+            'total_discount_rate' => $this->input->post('total_discount_rate'),
             'created_at' => $today,
             'end_at' => $temp_date,
             'created_by' => $this->session->userdata('id'),
