@@ -6917,29 +6917,31 @@ class C_Admin extends CI_Controller
             if ($n['id_teacher'] == '200001') {
                 if ($n['tipe'] == 1) {
                     $rate_dollar = $this->M_Admin->getData_list_pack($n['id_list_pack']);
-                    $id_student_nadia_paket_pratical[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&1&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $rate_dollar[0]['rate_dollar'];
+                    $id_student_nadia_paket_pratical[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&1&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $rate_dollar[0]['price_paket_pratical'] . "&" . $rate_dollar[0]['total_discount_rate'] . "&" . $rate_dollar[0]['price_paket_pratical'];
                 }
                 if ($n['tipe'] == 2) {
                     $rate_dollar = $this->M_Admin->getData_list_pack($n['id_list_pack']);
-                    $id_student_nadia_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $rate_dollar[0]['rate_dollar'];
+                    $id_student_nadia_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $rate_dollar[0]['price_paket_theory'] . "&" . $rate_dollar[0]['total_discount_rate'] . "&" . $rate_dollar[0]['price_paket_theory'];
                 }
                 if ($n['tipe'] == 3) {
                     $potongan = $this->M_Admin->getData_list_package_offline($n['id_list_package_offline']);
                     $id_student_nadia_offline_lesson[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&3&" . $n['id_list_package_offline'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $potongan[0]['total_discount_rate'] . "&" . $potongan[0]['price_paket'];
                 }
             } else {
-                $price_pack_temp = $n['price_idr'];
+                $price_pack_temp = $n['price'];
                 if ($n['tipe'] == 1) {
-                    if ($n['status_pack_theory'] == 1) {
-                        $price_pack_temp -= 100000;
-                    }
-                    $id_student_paket_pratical[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&1&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp;
+                    // if ($n['status_pack_theory'] == 1) {
+                    //     $price_pack_temp -= 100000;
+                    // }
+                    $potongan = $this->M_Admin->getData_list_pack($n['id_list_pack']);
+                    $id_student_paket_pratical[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&1&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp . "&" . $potongan[0]['total_discount_rate'] . "&" . $potongan[0]['price_paket_pratical'];
                 }
                 if ($n['tipe'] == 2) {
-                    if ($n['status_pack_practical'] == 1) {
-                        $price_pack_temp = 100000;
-                    }
-                    $id_student_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp;
+                    // if ($n['status_pack_practical'] == 1) {
+                    //     $price_pack_temp = 100000;
+                    // }
+                    $potongan = $this->M_Admin->getData_list_pack($n['id_list_pack']);
+                    $id_student_paket_teory[] = $n['id_student'] . "&" . $n['name_student']  . "&" . $n['name_paket'] . "&" . $n['price'] . "&" . $n['rate'] . "&2&" . $n['id_list_pack'] . "&" . $n['no_sirkulasi_lesson'] . "&" . $n['is_new'] . "&" . $price_pack_temp . "&" . $potongan[0]['total_discount_rate'] . "&" . $potongan[0]['price_paket_pratical'];
                 }
                 if ($n['tipe'] == 3) {
                     $potongan = $this->M_Admin->getData_list_package_offline($n['id_list_package_offline']);
@@ -7157,7 +7159,7 @@ class C_Admin extends CI_Controller
                         $total_fee_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = $total_pack_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] * $id_student_paket_pratical_temp2[$i][3] * 2;
                         // $total_fee_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = $total_pack_periode_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] * $id_student_paket_pratical_temp2[$i][3] * 50 / 100;
                         $temp = round(($tipe_rate50_paket_pratical_before[$id_student_paket_pratical_temp2[$i][7]] / 2) + ($tipe_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] / 2));
-                        $notes_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = "50%(" . $temp . "/10)";
+                        $notes_rate50_paket_pratical[$id_student_paket_pratical_temp2[$i][7]] = "50%(" . $temp . "/" . $id_student_paket_pratical_temp2[$i][10] . ")";
                     }
                 }
                 if ($id_student_paket_pratical_temp2[$i][4] == 70) {
@@ -7239,7 +7241,8 @@ class C_Admin extends CI_Controller
                     // $total_fee_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = $total_pack_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] * $id_student_paket_teory_temp2[$i][3] * 50 / 100;
                     $total_fee_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = $total_pack_periode_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] * $id_student_paket_teory_temp2[$i][3];
                     $temp = round(($tipe_rate50_paket_teory_before[$id_student_paket_teory_temp2[$i][7]]) + ($tipe_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]]));
-                    $notes_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = "50%(" . $temp . "/10)";
+                    $notes_rate50_paket_teory[$id_student_paket_teory_temp2[$i][7]] = "50%(" . $temp
+                        . "/" . $id_student_paket_teory_temp2[$i][10] . ")";
                 }
                 if ($id_student_paket_teory_temp2[$i][4] == 70) {
                     $temp_before_rate_paket_teory = $this->M_Admin->getData_sirkulasi_lesson_detail_before_periode(null, null, null, $id_student_paket_teory_temp2[$i][0], $id_student_paket_teory_temp2[$i][5], $periode, $id_student_paket_teory_temp2[$i][4], $id_student_paket_teory_temp2[$i][6]);

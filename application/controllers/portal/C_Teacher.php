@@ -2739,6 +2739,9 @@ class C_Teacher extends CI_Controller
             $temp_id_teacher = substr($id_teacher, 3);
             $tipe = $jenis;
             $tipe_rate = '';
+            $potongan = $this->input->post('potongan');
+            $price_paket_theory = $this->input->post('price_paket_theory');
+            $price_paket_pratical = $this->input->post('price_paket_pratical');
 
             //nomor sirkulasi lesson
             //LESS/002/015/1 => tipe online lesson
@@ -2761,7 +2764,7 @@ class C_Teacher extends CI_Controller
             }
 
             if ($tipe == 1) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= ($potongan * 2)) {
                     if (count($cek_sirkulasi) > 0) {
                         $data_update_sirkulasi = null;
                         $total = $cek_sirkulasi[0]['total'];
@@ -2859,7 +2862,7 @@ class C_Teacher extends CI_Controller
                         $total_50 = $cek_sirkulasi[0]['total_50'];
                         $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                        if ($total_50 >= 20) {
+                        if ($total_50 >= ($potongan * 2)) {
                             if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                                 $data_update_sirkulasi = array(
                                     'rate_created_at' => $created_at,
@@ -2909,7 +2912,7 @@ class C_Teacher extends CI_Controller
             }
 
             if ($tipe == 2) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
                     if (count($cek_sirkulasi) > 0) {
                         $data_update_sirkulasi = null;
                         $total = $cek_sirkulasi[0]['total'];
@@ -3005,7 +3008,7 @@ class C_Teacher extends CI_Controller
                         $total_50 = $cek_sirkulasi[0]['total_50'];
                         $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                        if ($total_50 >= 10) {
+                        if ($total_50 >= $potongan) {
                             if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                                 $data_update_sirkulasi = array(
                                     'rate_created_at' => $created_at,
@@ -3059,16 +3062,16 @@ class C_Teacher extends CI_Controller
                     $tipe_rate = 50;
                     $price_next_periode_temp = 0;
                     if ($tipe == 1) {
-                        $price_next_periode_temp = $get_data_50_next_periode[0]['price_idr'] / 2;
-                        if ($get_data_50_next_periode[0]['status_pack_theory'] == 1) {
-                            $price_next_periode_temp = (($get_data_50_next_periode[0]['price_idr'] - 100000) / 2);
-                        }
+                        $price_next_periode_temp = $price_paket_pratical / 2;
+                        // if ($get_data_50_next_periode[0]['status_pack_theory'] == 1) {
+                        //     $price_next_periode_temp = (($get_data_50_next_periode[0]['price_idr'] - 100000) / 2);
+                        // }
                     }
                     if ($tipe == 2) {
-                        $price_next_periode_temp = $get_data_50_next_periode[0]['price_idr'];
-                        if ($get_data_50_next_periode[0]['status_pack_practical'] == 1) {
-                            $price_next_periode_temp = 100000;
-                        }
+                        $price_next_periode_temp = $price_paket_theory;
+                        // if ($get_data_50_next_periode[0]['status_pack_practical'] == 1) {
+                        //     $price_next_periode_temp = 100000;
+                        // }
                     }
                     $data = array(
                         'rate' => $teacher_percentage,
@@ -3080,10 +3083,12 @@ class C_Teacher extends CI_Controller
                 }
             }
 
-
-            $price_temp_sirkulasi_detail = $price * $tipe_rate / 100;
+            $price_temp_sirkulasi_detail = 0;
             if ($tipe == 1) {
-                $price_temp_sirkulasi_detail = $price_temp_sirkulasi_detail / 2;
+                $price_temp_sirkulasi_detail = ($price_paket_pratical / 2) * $tipe_rate / 100;
+            }
+            if ($tipe == 2) {
+                $price_temp_sirkulasi_detail = $price_paket_theory * $tipe_rate / 100;
             }
 
             $data_sirkulasi_lesson_detail = array(
@@ -3110,9 +3115,9 @@ class C_Teacher extends CI_Controller
             $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
             if ($tipe == 1) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= ($potongan * 2)) {
                     if (count($get_data_50_next_periode) > 0) {
-                        $price_next_periode = ($get_data_50_next_periode[0]['price_idr'] - 100000) / 2;
+                        $price_next_periode = $price_paket_pratical / 2;
                         $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                         $price_temp_feereport_detail = $sirkulasi_detail_after[0]['price'] / 2;
                         $data = array(
@@ -3132,9 +3137,9 @@ class C_Teacher extends CI_Controller
                 }
             }
             if ($tipe == 2) {
-                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+                if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
                     if (count($get_data_50_next_periode) > 0) {
-                        $price_next_periode = 100000;
+                        $price_next_periode = $price_paket_theory;
                         $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
                         $data = array(
                             'price' => $sirkulasi_detail_after[0]['price'] - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100),
@@ -3153,13 +3158,16 @@ class C_Teacher extends CI_Controller
                 }
             }
 
-
             $data2 = [];
             $data3 = [];
-            $price = $price * $tipe_rate / 100;
+            $price = 0;
             if ($tipe == 1) {
-                $price = $price / 2;
+                $price = ($price_paket_pratical / 2) * $tipe_rate / 100;
             }
+            if ($tipe == 2) {
+                $price = $price_paket_theory * $tipe_rate / 100;
+            }
+
             if (count($data_sirkulasi_feereport) == 0) {
                 $data2 =  [
                     'no_sirkulasi_feereport' => $no_sirkulasi_feereport,
@@ -3276,6 +3284,9 @@ class C_Teacher extends CI_Controller
         $tipe = $jenis;
         $tipe_rate = '';
         $is_new = $this->input->post('is_new');
+        $potongan = $this->input->post('potongan');
+        $price_paket_theory = $this->input->post('price_paket_theory');
+        $price_paket_pratical = $this->input->post('price_paket_pratical');
 
         //cek total id_student -> <- id_teacher
         //nomor sirkulasi lesson
@@ -3297,7 +3308,7 @@ class C_Teacher extends CI_Controller
         }
 
         if ($tipe == 1) {
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 20) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= ($potongan * 2)) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -3395,7 +3406,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 20) {
+                    if ($total_50 >= ($potongan * 2)) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -3445,7 +3456,7 @@ class C_Teacher extends CI_Controller
         }
 
         if ($tipe == 2) {
-            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
                 if (count($cek_sirkulasi) > 0) {
                     $data_update_sirkulasi = null;
                     $total = $cek_sirkulasi[0]['total'];
@@ -3541,7 +3552,7 @@ class C_Teacher extends CI_Controller
                     $total_50 = $cek_sirkulasi[0]['total_50'];
                     $total_rate = $cek_sirkulasi[0]['total_rate'];
 
-                    if ($total_50 >= 10) {
+                    if ($total_50 >= $potongan) {
                         if ($cek_sirkulasi[0]['rate_created_at'] == NULL) {
                             $data_update_sirkulasi = array(
                                 'rate_created_at' => $created_at,
@@ -3593,15 +3604,37 @@ class C_Teacher extends CI_Controller
         if ($tipe_rate != 50) {
             if (count($get_data_50_next_periode) > 0) {
                 $tipe_rate = 50;
+                $price_next_periode_temp = 0;
+                if ($tipe == 1) {
+                    $price_next_periode_temp = $price_paket_pratical / 2;
+                    // if ($get_data_50_next_periode[0]['status_pack_theory'] == 1) {
+                    //     $price_next_periode_temp = (($get_data_50_next_periode[0]['price_idr'] - 100000) / 2);
+                    // }
+                }
+                if ($tipe == 2) {
+                    $price_next_periode_temp = $price_paket_theory;
+                    // if ($get_data_50_next_periode[0]['status_pack_practical'] == 1) {
+                    //     $price_next_periode_temp = 100000;
+                    // }
+                }
                 $data = array(
                     'rate' => $teacher_percentage,
-                    'price' => ($get_data_50_next_periode[0]['price_idr'] - 100000) * $teacher_percentage / 100,
+                    'price' => $price_next_periode_temp * $teacher_percentage / 100,
                 );
                 $this->M_Teacher->updateDataSirkulasiLessonDetail($data, $get_data_50_next_periode[0]['id_sirkulasi_lesson_detail']);
             } else {
                 $tipe_rate = $teacher_percentage;
             }
         }
+
+        $price_temp_sirkulasi_detail = 0;
+        if ($tipe == 1) {
+            $price_temp_sirkulasi_detail = ($price_paket_pratical / 2) * $tipe_rate / 100;
+        }
+        if ($tipe == 2) {
+            $price_temp_sirkulasi_detail = $price_paket_theory * $tipe_rate / 100;
+        }
+
         $data_sirkulasi_lesson_detail = array(
             'no_sirkulasi_lesson' => $no_sirkulasi_lesson,
             'id_student' => $id_student,
@@ -3610,7 +3643,7 @@ class C_Teacher extends CI_Controller
             'lesson_date' => $created_at,
             'tipe' => $tipe,
             'rate' => $tipe_rate,
-            'price' => $price * $tipe_rate / 100,
+            'price' => $price_temp_sirkulasi_detail,
             'paket' => $paket,
         );
         $this->M_Teacher->addDataSirkulasiLessonDetail($data_sirkulasi_lesson_detail);
@@ -3625,29 +3658,59 @@ class C_Teacher extends CI_Controller
 
         $data_sirkulasi_feereport_next_periode = $this->M_Teacher->getData_sirkulasi_feereport(null, null, 0, $id_teacher, $effectiveDate);
 
-        if ((count($get_data_before_periode) + count($get_data_after_periode)) >= 10) {
-            if (count($get_data_50_next_periode) > 0) {
-                $price_next_periode = $get_data_50_next_periode[0]['price_idr'] - 100000;
-                $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
-                $data = array(
-                    'price' => $sirkulasi_detail_after[0]['price'] - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100),
-                );
-                $this->db->update('sirkulasi_feereport_detail', $data, ['id' => $sirkulasi_detail_after[0]['id']]);
+        if ($tipe == 1) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= ($potongan * 2)) {
+                if (count($get_data_50_next_periode) > 0) {
+                    $price_next_periode = $price_paket_pratical / 2;
+                    $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
+                    $price_temp_feereport_detail = $sirkulasi_detail_after[0]['price'] / 2;
+                    $data = array(
+                        'price' => $price_temp_feereport_detail - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100),
+                    );
+                    $this->db->update('sirkulasi_feereport_detail', $data, ['id' => $sirkulasi_detail_after[0]['id']]);
 
-                $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
-                $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100);
-                $data2 =  [
-                    'price' => $price_temp_feereport,
-                    'total_price' => $price_temp_feereport - $discount,
-                    'updated_at' => $created_at,
-                ];
-                $this->db->update('sirkulasi_feereport', $data2, ['id_sirkulasi_feereport' => $data_sirkulasi_feereport_next_periode[0]['id_sirkulasi_feereport']]);
+                    $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
+                    $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100);
+                    $data2 =  [
+                        'price' => $price_temp_feereport,
+                        'total_price' => $price_temp_feereport - $discount,
+                        'updated_at' => $created_at,
+                    ];
+                    $this->db->update('sirkulasi_feereport', $data2, ['id_sirkulasi_feereport' => $data_sirkulasi_feereport_next_periode[0]['id_sirkulasi_feereport']]);
+                }
+            }
+        }
+        if ($tipe == 2) {
+            if ((count($get_data_before_periode) + count($get_data_after_periode)) >= $potongan) {
+                if (count($get_data_50_next_periode) > 0) {
+                    $price_next_periode = $price_paket_theory;
+                    $sirkulasi_detail_after = $this->M_Teacher->getData_sirkulasi_feereport_detail(null, $data_sirkulasi_feereport_next_periode[0]["no_sirkulasi_feereport"], $tipe, $cek_sirkulasi_next_periode[0]['no_sirkulasi_lesson']);
+                    $data = array(
+                        'price' => $sirkulasi_detail_after[0]['price'] - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100),
+                    );
+                    $this->db->update('sirkulasi_feereport_detail', $data, ['id' => $sirkulasi_detail_after[0]['id']]);
+
+                    $discount = (intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100)) * intval($data_sirkulasi_feereport_next_periode[0]['discount']) / 100;
+                    $price_temp_feereport = intval($data_sirkulasi_feereport_next_periode[0]['price']) - ($price_next_periode * 50 / 100) + ($price_next_periode * $teacher_percentage / 100);
+                    $data2 =  [
+                        'price' => $price_temp_feereport,
+                        'total_price' => $price_temp_feereport - $discount,
+                        'updated_at' => $created_at,
+                    ];
+                    $this->db->update('sirkulasi_feereport', $data2, ['id_sirkulasi_feereport' => $data_sirkulasi_feereport_next_periode[0]['id_sirkulasi_feereport']]);
+                }
             }
         }
 
         $data2 = [];
         $data3 = [];
-        $price = $price * $tipe_rate / 100;
+        $price = 0;
+        if ($tipe == 1) {
+            $price = ($price_paket_pratical / 2) * $tipe_rate / 100;
+        }
+        if ($tipe == 2) {
+            $price = $price_paket_theory * $tipe_rate / 100;
+        }
         if (count($data_sirkulasi_feereport) == 0) {
             $data2 =  [
                 'no_sirkulasi_feereport' => $no_sirkulasi_feereport,

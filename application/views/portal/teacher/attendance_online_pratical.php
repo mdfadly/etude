@@ -707,6 +707,9 @@
             price = "<?= $pack_online[0]['price_dollar'] ?>";
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket_theory = <?= $pack_online[0]['price_paket_theory'] ?>;
+        const price_paket_pratical = <?= $pack_online[0]['price_paket_pratical'] ?>;
 
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/update_schedule_package') ?>",
@@ -723,6 +726,9 @@
                 'paket': paket,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket_theory': price_paket_theory,
+                'price_paket_pratical': price_paket_pratical,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchEvents');
@@ -826,6 +832,9 @@
             price = "<?= $pack_online[0]['price_dollar'] ?>";
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket_theory = <?= $pack_online[0]['price_paket_theory'] ?>;
+        const price_paket_pratical = <?= $pack_online[0]['price_paket_pratical'] ?>;
 
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/reschedule_package') ?>",
@@ -841,6 +850,9 @@
                 'id_list_pack': id_list_pack,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket_theory': price_paket_theory,
+                'price_paket_pratical': price_paket_pratical,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchResources');
@@ -874,6 +886,9 @@
             price = "<?= $pack_online[0]['price_dollar'] ?>";
         }
         var is_new = "<?= $pack_online[0]['is_new'] ?>";
+        const potongan = <?= $pack_online[0]['total_discount_rate'] ?>;
+        const price_paket_theory = <?= $pack_online[0]['price_paket_theory'] ?>;
+        const price_paket_pratical = <?= $pack_online[0]['price_paket_pratical'] ?>;
 
         $.ajax({
             url: "<?= base_url('portal/C_Teacher/reschedule_package') ?>",
@@ -889,6 +904,9 @@
                 'id_list_pack': id_list_pack,
                 'teacher_percentage': teacher_percentage,
                 'is_new': is_new,
+                'potongan': potongan,
+                'price_paket_theory': price_paket_theory,
+                'price_paket_pratical': price_paket_pratical,
             },
             success: function(data) {
                 calendar.fullCalendar('refetchResources');

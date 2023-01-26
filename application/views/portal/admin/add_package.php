@@ -92,6 +92,10 @@
                             <label for="pack_theory">Teacher Fee Percentage</label>
                             <input type="number" class="form-control" id="teacher_percentage" value="0" required name="teacher_percentage">
                         </div>
+                        <div class="form-group">
+                            <label for="total_discount_rate">Potongan Fee Percentage</label>
+                            <input type="number" class="form-control" id="total_discount_rate" value="0" required name="total_discount_rate">
+                        </div>
                     </div>
 
                     <br>

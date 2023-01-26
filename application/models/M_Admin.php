@@ -1446,7 +1446,7 @@ class M_Admin extends CI_Model
         }
 
         $price_paket = $this->input->post('rate_package') / $total_package;
-        $discount_price_paket = $price_paket - ($price_paket * 10 / 100);
+        $discount_price_paket = $price_paket - ($price_paket * $this->input->post('discount') / 100);
 
         $data =  [
             'no_transaksi_package_offline' => $no_transaksi_package . "/" . $z,
@@ -1883,6 +1883,21 @@ class M_Admin extends CI_Model
             }
         }
 
+        $price_paket = $this->input->post('rate_package') / $total_package;
+        $price_paket_theory = 0;
+        $price_paket_pratical = 0;
+        if ($status_pack_practical == '1') {
+            if ($status_pack_theory == '1') {
+                $price_paket = $price_paket - 100000;
+                $price_paket_theory = 100000 - (100000 * $this->input->post('discount') / 100);
+            }
+            $price_paket_pratical = $price_paket - ($price_paket * $this->input->post('discount') / 100);
+        } else {
+            if ($status_pack_theory == '1') {
+                $price_paket_theory = $price_paket - ($price_paket * $this->input->post('discount') / 100);
+            }
+        }
+
         $data =  [
             'no_transaksi_package' => $no_transaksi_package . "/" . $z,
             'id_student' => $this->input->post('id_student'),
@@ -1892,6 +1907,9 @@ class M_Admin extends CI_Model
             'status_pack_theory' => $status_pack_theory,
             'instrument' =>  $instrument,
             'paket' => $this->input->post('temp_paket'),
+            'price_paket_pratical' => $price_paket_pratical,
+            'price_paket_theory' => $price_paket_theory,
+            'total_discount_rate' => $this->input->post('total_discount_rate'),
             'total_package' => $total_package,
             'total_pack_practical' => $total_pack_practical,
             'total_pack_theory' => $total_pack_theory,
