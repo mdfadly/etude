@@ -535,7 +535,7 @@ class M_Admin extends CI_Model
 
     var $column_order_sirkulasi = array(null, 'si.created_at', 'si.no_transaksi', null, null);
     var $column_search_sirkulasi = array('si.created_at', 'si.no_transaksi');
-    var $order_sirkulasi = array('si.created_at' => 'DESC');
+    var $order_sirkulasi = array('si.no_transaksi' => 'DESC');
 
     private function _get_datatables_query_sirkulasi($periode = null)
     {
@@ -1474,28 +1474,68 @@ class M_Admin extends CI_Model
         //nomor invoice
         //INV/210629/004/001
         $temp_id_parent = substr($this->input->post('id_student'), 3, -1);
-        $no_transaksi = "INV/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
+        $no_transaksi = "INV001/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
         $data_sirkulasi = $this->getData_sirkulasi(null, $no_transaksi, $today);
 
         //cek transaksi hari ini
+        $counter = $this->getData_sirkulasi_new(null, null, substr($today, 0, 7));
+        sort($counter);
         $data2 = [];
         $data3 = [];
         if (count($data_sirkulasi) == 0) {
-            $data2 =  [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'created_at' => $today,
-                'created_by' => $this->session->userdata('id'),
-                'rate' => $this->input->post('rate'),
-                'total_rate' => $this->input->post('rate')
-            ];
-            $data3 = [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'id_barang' => $no_transaksi_package . "/" . $z,
-                'tipe_barang' => '5',
-                'price' => $this->input->post('rate'),
-            ];
+            if (count($counter) == 0) {
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $today,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $this->input->post('rate'),
+                    'total_rate' => $this->input->post('rate')
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_package . "/" . $z,
+                    'tipe_barang' => '5',
+                    'price' => $this->input->post('rate'),
+                ];
+            } else {
+                $temp_last3digits = substr($counter[count($counter) - 1]['no_transaksi'], -3);
+                $temp_number = 1;
+                if (substr($temp_last3digits, 0, 1) == 0) {
+                    if (substr($temp_last3digits, 1, 1) == 0) {
+                        $temp_number = substr($temp_last3digits, 2, 1);
+                    } else {
+                        $temp_number = substr($temp_last3digits, 1, 2);
+                    }
+                } else {
+                    $temp_number = $temp_last3digits;
+                }
+                $x = 0;
+                $temp_count = 1 + $temp_number;
+                if ($temp_count < 10) {
+                    $x = "00" . $temp_count;
+                } else if ($temp_count < 100) {
+                    $x = "0" . $temp_count;
+                } else {
+                    $x = $temp_count;
+                }
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $today,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $this->input->post('rate'),
+                    'total_rate' => $this->input->post('rate')
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_package . "/" . $z,
+                    'tipe_barang' => '5',
+                    'price' => $this->input->post('rate'),
+                ];
+            }
             $this->db->insert('sirkulasi', $data2);
             $this->db->insert('sirkulasi_transaksi', $data3);
         } else {
@@ -1926,14 +1966,16 @@ class M_Admin extends CI_Model
         $this->db->insert('list_package', $data);
 
         //nomor invoice
-        //INV/210629/004/001
+        //INV001/210629/004/001
         $temp_id_parent = substr($this->input->post('id_student'), 3, -1);
-        $no_transaksi = "INV/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
+        $no_transaksi = "INV001/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
         $data_sirkulasi = $this->getData_sirkulasi(null, $no_transaksi);
 
         //cek transaksi hari ini
-        $temp_counter = "INV/" . $temp_date_sirkulasi;
-        $counter = $this->getData_sirkulasi(null, $temp_counter);
+        $temp_counter = "INV001/" . $temp_date_sirkulasi;
+        // $counter = $this->getData_sirkulasi(null, $temp_counter);
+        $counter = $this->getData_sirkulasi_new(null, null, substr($today, 0, 7));
+        sort($counter);
         $data2 = [];
         $data3 = [];
         if (count($data_sirkulasi) == 0) {
@@ -1954,13 +1996,25 @@ class M_Admin extends CI_Model
                     'price' => $this->input->post('rate'),
                 ];
             } else {
-                $x = 0;
-                if (count($counter) < 10) {
-                    $x = "00" . count($counter);
-                } else if (count($counter) < 100) {
-                    $x = "0" . count($counter);
+                $temp_last3digits = substr($counter[count($counter) - 1]['no_transaksi'], -3);
+                $temp_number = 1;
+                if (substr($temp_last3digits, 0, 1) == 0) {
+                    if (substr($temp_last3digits, 1, 1) == 0) {
+                        $temp_number = substr($temp_last3digits, 2, 1);
+                    } else {
+                        $temp_number = substr($temp_last3digits, 1, 2);
+                    }
                 } else {
-                    $x = count($counter);
+                    $temp_number = $temp_last3digits;
+                }
+                $x = 0;
+                $temp_count = 1 + $temp_number;
+                if ($temp_count < 10) {
+                    $x = "00" . $temp_count;
+                } else if ($temp_count < 100) {
+                    $x = "0" . $temp_count;
+                } else {
+                    $x = $temp_count;
                 }
                 $data2 =  [
                     'no_transaksi' => $no_transaksi . "/" . $x,
@@ -2045,6 +2099,23 @@ class M_Admin extends CI_Model
         $this->db->join('teacher as tt', 'lp.id_teacher_theory = tt.id_teacher', 'left');
         if ($no_transaksi_package != null) {
             $this->db->like('no_transaksi_package', $no_transaksi_package);
+        }
+        return $this->db->get()->result_array();
+    }
+
+    public function getData_sirkulasi_new($id_sirkulasi = null, $no_transaksi = null, $periode = null)
+    {
+        $this->db->select('s.id_sirkulasi, s.no_transaksi');
+        $this->db->from('sirkulasi as s');
+        $this->db->where('s.status_sirkulasi', '1');
+        if ($id_sirkulasi != null) {
+            $this->db->where('id_sirkulasi', $id_sirkulasi);
+        }
+        if ($no_transaksi != null) {
+            $this->db->like('no_transaksi', $no_transaksi);
+        }
+        if ($periode != null) {
+            $this->db->like('created_at', $periode);
         }
         return $this->db->get()->result_array();
     }
@@ -2934,30 +3005,71 @@ class M_Admin extends CI_Model
 
         $total_price = $this->input->post('price');
         //nomor invoice
-        //INV/210629/004/001
+        //INV002/210629/004/001
         $temp_id_parent = substr($this->input->post('id_student'), 3, -1);
-        $no_transaksi = "INV/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
+        $no_transaksi = "INV002/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
         $data_sirkulasi = $this->getData_sirkulasi(null, $no_transaksi, $created_at);
 
         //cek transaksi hari ini
+        $counter = $this->getData_sirkulasi_new(null, null, substr($created_at, 0, 7));
+        sort($counter);
         $data2 = [];
         $data3 = [];
         if (count($data_sirkulasi) == 0) {
-            $data2 =  [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'created_at' => $created_at,
-                'created_by' => $this->session->userdata('id'),
-                'rate' => $total_price,
-                'total_rate' => $total_price
-            ];
-            $data3 = [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'id_barang' => $no_transaksi_book . "/" . $z,
-                'tipe_barang' => '3',
-                'price' => $total_price,
-            ];
+            if (count($counter) == 0) {
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $created_at,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $total_price,
+                    'total_rate' => $total_price
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_book . "/" . $z,
+                    'tipe_barang' => '3',
+                    'price' => $total_price,
+                ];
+            } else {
+                $temp_last3digits = substr($counter[count($counter) - 1]['no_transaksi'], -3);
+                $temp_number = 1;
+                if (substr($temp_last3digits, 0, 1) == 0) {
+                    if (substr($temp_last3digits, 1, 1) == 0) {
+                        $temp_number = substr($temp_last3digits, 2, 1);
+                    } else {
+                        $temp_number = substr($temp_last3digits, 1, 2);
+                    }
+                } else {
+                    $temp_number = $temp_last3digits;
+                }
+                $x = 0;
+                $temp_count = 1 + $temp_number;
+                if ($temp_count < 10) {
+                    $x = "00" . $temp_count;
+                } else if ($temp_count < 100) {
+                    $x = "0" . $temp_count;
+                } else {
+                    $x = $temp_count;
+                }
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $created_at,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $total_price,
+                    'total_rate' => $total_price
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_book . "/" . $z,
+                    'tipe_barang' => '3',
+                    'price' => $total_price,
+                ];
+            }
+
             $this->db->insert('sirkulasi', $data2);
             $this->db->insert('sirkulasi_transaksi', $data3);
         } else {
@@ -3566,30 +3678,70 @@ class M_Admin extends CI_Model
         }
 
         //nomor invoice
-        //INV/210629/004/001
+        //INV003/210629/004/001
         $temp_id_parent = substr($this->input->post('id_student'), 3, -1);
-        $no_transaksi = "INV/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
+        $no_transaksi = "INV003/" . $temp_date_sirkulasi . "/" . $temp_id_parent;
         $data_sirkulasi = $this->getData_sirkulasi(null, $no_transaksi, $created_at);
 
         //cek transaksi hari ini
+        $counter = $this->getData_sirkulasi_new(null, null, substr($created_at, 0, 7));
+        sort($counter);
         $data2 = [];
         $data3 = [];
         if (count($data_sirkulasi) == 0) {
-            $data2 =  [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'created_at' => $created_at,
-                'created_by' => $this->session->userdata('id'),
-                'rate' => $total_price,
-                'total_rate' => $total_price
-            ];
-            $data3 = [
-                'no_transaksi' => $no_transaksi . "/001",
-                'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
-                'id_barang' => $no_transaksi_event . "/" . $z,
-                'tipe_barang' => '2',
-                'price' => $total_price,
-            ];
+            if (count($counter) == 0) {
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $created_at,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $total_price,
+                    'total_rate' => $total_price
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/001",
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_event . "/" . $z,
+                    'tipe_barang' => '2',
+                    'price' => $total_price,
+                ];
+            } else {
+                $temp_last3digits = substr($counter[count($counter) - 1]['no_transaksi'], -3);
+                $temp_number = 1;
+                if (substr($temp_last3digits, 0, 1) == 0) {
+                    if (substr($temp_last3digits, 1, 1) == 0) {
+                        $temp_number = substr($temp_last3digits, 2, 1);
+                    } else {
+                        $temp_number = substr($temp_last3digits, 1, 2);
+                    }
+                } else {
+                    $temp_number = $temp_last3digits;
+                }
+                $x = 0;
+                $temp_count = 1 + $temp_number;
+                if ($temp_count < 10) {
+                    $x = "00" . $temp_count;
+                } else if ($temp_count < 100) {
+                    $x = "0" . $temp_count;
+                } else {
+                    $x = $temp_count;
+                }
+                $data2 =  [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'created_at' => $created_at,
+                    'created_by' => $this->session->userdata('id'),
+                    'rate' => $total_price,
+                    'total_rate' => $total_price
+                ];
+                $data3 = [
+                    'no_transaksi' => $no_transaksi . "/" . $x,
+                    'is_id_parent' => substr($this->input->post('id_student'), 0, -1),
+                    'id_barang' => $no_transaksi_event . "/" . $z,
+                    'tipe_barang' => '2',
+                    'price' => $total_price,
+                ];
+            }
             $this->db->insert('sirkulasi', $data2);
             $this->db->insert('sirkulasi_transaksi', $data3);
         } else {

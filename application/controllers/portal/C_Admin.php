@@ -2415,6 +2415,7 @@ class C_Admin extends CI_Controller
         // $this->cekLogin();
         $dbTable = "sirkulasi";
         $list = $this->M_Admin->get_datatables($dbTable, null, $periode);
+        sort($list);
         $data = array();
         $no = @$_POST['start'];
         if (count($list) > 0) {
@@ -4243,10 +4244,10 @@ class C_Admin extends CI_Controller
     {
         $this->cekLogin();
 
-        $id_parent = '100' . substr($no_transaksi, 9, 3);
+        $id_parent = '100' . substr($no_transaksi, 12, 3);
         $ortu = $this->M_Admin->getData_student(null, $id_parent);
         // INV/210629/022/001
-        $temp_no_transaksi = "INV/" . substr($no_transaksi, 3, 6) . "/" . substr($no_transaksi, 9, 3) . "/" . substr($no_transaksi, 12);
+        $temp_no_transaksi = substr($no_transaksi, 0, 6) . "/" . substr($no_transaksi, 6, 6) . "/" . substr($no_transaksi, 12, 3) . "/" . substr($no_transaksi, -3);
         $sirkulasi_detail = $this->M_Admin->getData_sirkulasi_transaksi($temp_no_transaksi);
         $sirkulasi = $this->M_Admin->getData_sirkulasi(null, $temp_no_transaksi);
 
