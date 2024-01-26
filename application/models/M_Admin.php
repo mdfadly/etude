@@ -3143,13 +3143,15 @@ class M_Admin extends CI_Model
             $this->db->delete('sirkulasi_transaksi', ['id' => $no_transaksi_pack[0]['id']]);
             $this->db->update('sirkulasi', $data, ['no_transaksi' => $no_transaksi_pack[0]['no_transaksi']]);
         }
-        $book = $this->getData_book($id_book);
-        $temp_qty = intval($book[0]['qty']) + $qty;
-        $data =  [
-            'qty' => $temp_qty,
-            'status' => '1'
-        ];
-        $this->db->update('book', $data, ['id_book' => $id_book]);
+        if ($id_book != "-") {
+            $book = $this->getData_book($id_book);
+            $temp_qty = intval($book[0]['qty']) + $qty;
+            $data =  [
+                'qty' => $temp_qty,
+                'status' => '1'
+            ];
+            $this->db->update('book', $data, ['id_book' => $id_book]);
+        }
         $this->db->delete('order_book', ['id_order' => $id_order]);
         return true;
     }

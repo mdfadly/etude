@@ -1403,6 +1403,10 @@ class C_Admin extends CI_Controller
             $no++;
             $row = array();
             $row[] = $no . ".";
+            $book_id_temp = "-";
+            if ($item->id_book != null && $item->id_book != "") {
+                $book_id_temp = $item->id_book;
+            }
             $row[] = $item->name_student;
             $row[] = $item->title;
             // $row[] = $item->level;
@@ -1596,7 +1600,7 @@ class C_Admin extends CI_Controller
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <div class="btn-group"><a href="' . site_url('portal/book/sell/edit/' . $item->id_order) . '" class="btn btn-xs btn-primary mr-2 btn-update" title="Edit Data ini"> <i class="fa fa-edit icon-white"></i> </a> <a href="' . site_url('portal/C_Admin/delete_data_book_order/' . $item->id_order . '/' . $item->id_book . '/' . $item->qty_order_book . '/' . str_replace("/", "-", $item->no_transaksi_book)) . '" class="btn btn-danger" title="Hapus Data Ini" onclick=\'return confirm("this data will be deleted. are you sure?")\'><i class="fa fa-trash icon-white"></i></a></div>
+                            <div class="btn-group"><a href="' . site_url('portal/book/sell/edit/' . $item->id_order) . '" class="btn btn-xs btn-primary mr-2 btn-update" title="Edit Data ini"> <i class="fa fa-edit icon-white"></i> </a> <a href="' . site_url('portal/C_Admin/delete_data_book_order/' . $item->id_order . '/' . $book_id_temp . '/' . $item->qty_order_book . '/' . str_replace("/", "-", $item->no_transaksi_book)) . '" class="btn btn-danger" title="Hapus Data Ini" onclick=\'return confirm("this data will be deleted. are you sure?")\'><i class="fa fa-trash icon-white"></i></a></div>
                         </div>
                     </div>
                 </div>
@@ -7834,7 +7838,7 @@ class C_Admin extends CI_Controller
 
         // echo "<br>";
         // echo "<br>";
-        // echo var_dump($data_package);
+        // echo var_dump($invoice_temp_lesson);
         // echo "<br>";
         // echo "<br>";
         // echo "<br>";
@@ -7847,6 +7851,7 @@ class C_Admin extends CI_Controller
         // echo var_dump($data_lesson_date);
         // echo "<br>";
         // echo "<br>";
+        // die();
 
         $title = "Data Summary Invoice | Portal Etude";
         $description = "Welcome to Portal Etude";

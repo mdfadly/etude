@@ -87,7 +87,11 @@
                                         <?= $temp_invoice_temp_lesson[$i][2] ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php $tot_fee = $temp_invoice_temp_lesson[$i][3] - $discount_coupon_offline[$temp_invoice_temp_lesson[$i][0]] ?>
+                                        <?php if (substr($temp_invoice_temp_lesson[$i][0], 0, 6) == 'INV001') { ?>
+                                            <?php $tot_fee = $temp_invoice_temp_lesson[$i][3] - $discount_coupon_offline[$temp_invoice_temp_lesson[$i][0]] ?>
+                                        <?php } else { ?>
+                                            <?php $tot_fee = 0 ?>
+                                        <?php }  ?>
                                         Rp <?= number_format($tot_fee, 0, ',', '.')  ?>
                                     </td>
                                     <td class="text-center">
