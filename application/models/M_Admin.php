@@ -3366,15 +3366,18 @@ class M_Admin extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function getRegisterEvent($id_transaksi = null, $no_transaksi_event = null)
+    public function getRegisterEvent($id_transaksi = null, $no_transaksi_event = null, $parent_event = null)
     {
         $this->db->select('*');
-        $this->db->from('register_event_detail');
+        $this->db->from('register_event');
         if ($id_transaksi != null) {
             $this->db->where('id_transaksi', $id_transaksi);
         }
         if ($no_transaksi_event != null) {
             $this->db->where('no_transaksi_event', $no_transaksi_event);
+        }
+        if ($parent_event != null) {
+            $this->db->where('parent_event', $parent_event);
         }
         return $this->db->get()->result_array();
     }
@@ -3661,7 +3664,8 @@ class M_Admin extends CI_Model
         ];
         $this->db->insert('register_event', $data);
 
-        $counter = $this->input->post('total_event');
+        // $counter = $this->input->post('total_event');
+        $counter = 1;
         for ($i = 1; $i <= $counter; $i++) {
             $event = "event" . $i;
             if ($this->input->post($event) == 1) {
@@ -3766,15 +3770,42 @@ class M_Admin extends CI_Model
 
     public function updateDataEventStudent()
     {
-        $id_event_student = $this->input->post('id_event_student');
-        $data =  [
-            'id_event' => $this->input->post('id_event'),
-            'id_student' => $this->input->post('id_student'),
-            'price' => $this->input->post('price'),
-            'regist' => $this->input->post('regist'),
-        ];
+        $id_transaksi = $this->input->post('id_transaksi');   
+        $no_transaksi_event = $this->input->post('no_transaksi_event');   
+        
+        $price = $this->input->post('total_price');
+        $discount = $this->input->post('discount');
+        $total_price = $this->input->post('rate');
 
-        $this->db->update('event_student', $data, ['id_event_student' => $id_event_student]);
+        $temp = $this->getData_sirkulasi_transaksi(null, $no_transaksi_event);
+        $before_price = $temp[0]['price'];
+        $temp_sirkulasi = $this->getData_sirkulasi(null, $temp[0]['no_transaksi']);
+        $rate = $temp_sirkulasi[0]['rate'];
+        $discount_sirkulasi = $temp_sirkulasi[0]['discount'];
+        if($before_price > $total_price){
+            $after_price = $before_price - $total_price;
+            $rate -= $after_price;
+        }
+        if($before_price < $total_price){
+            $after_price = $total_price - $before_price;
+            $rate += $after_price;
+        }
+
+        $data = [
+            'discount' => $discount,
+            'total_price' => $total_price,
+        ];
+        $this->db->update('register_event', $data, ['id_transaksi' => $id_transaksi]);
+        $data2 = [
+            'price' => $total_price
+        ];
+        $this->db->update('sirkulasi_transaksi', $data2, ['id_barang' => $no_transaksi_event]);
+        $data3 = [
+            'rate' => $rate,
+            'total_rate' => $rate - $discount_sirkulasi
+        ];
+        $this->db->update('sirkulasi', $data3, ['no_transaksi' => $temp[0]['no_transaksi']]);
+        
         return true;
     }
 

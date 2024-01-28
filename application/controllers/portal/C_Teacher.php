@@ -1639,7 +1639,7 @@ class C_Teacher extends CI_Controller
                     $color = '#EB1AE0';
                 }
                 if ($row['status'] == 2) {
-                    $title = 'Lesson ' . $x++;
+                    $title = 'Paket ' . $x++;
                     $color = '#DE7CD9';
                 }
                 if ($row['status'] == 3) {
@@ -1708,9 +1708,9 @@ class C_Teacher extends CI_Controller
                     }
                     if ($row['status'] == 2) {
                         if (fmod($z++, 2) == 1) {
-                            $title = 'Lesson ' . $x . ' a';
+                            $title = 'Paket ' . $x . ' a';
                         } else {
-                            $title = 'Lesson ' . $x++ . ' b';
+                            $title = 'Paket ' . $x++ . ' b';
                         }
                         $color = '#67E543';
                     }
@@ -1738,9 +1738,9 @@ class C_Teacher extends CI_Controller
                     }
                     if ($row['status'] == 2) {
                         if (fmod($z++, 2) == 1) {
-                            $title = 'Lesson ' . $x . ' a';
+                            $title = 'Paket ' . $x . ' a';
                         } else {
-                            $title = 'Lesson ' . $x++ . ' b';
+                            $title = 'Paket ' . $x++ . ' b';
                         }
                         $color = '#0D99FF';
                     }

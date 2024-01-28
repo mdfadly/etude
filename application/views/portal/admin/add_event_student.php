@@ -29,7 +29,7 @@
         </div>
         <div style="text-align:left;">
             <span style="font-family:mReguler; font-size:20px;" class="font-weight-bold">
-                <a href="<?= site_url() ?>portal/event/student/" class="btn btn-primary">
+                <a href="<?= site_url() ?>portal/event/" class="btn btn-primary">
                     <i class="fa fa-angle-left"></i> Back
                 </a>
             </span>
@@ -63,52 +63,24 @@
                     </div>
                     <div class="form-group">
                         <label for="name_event">Event Name</label><br>
-                        <select class="form-control select-form" style="width:100%;" required name="event_name" id="event" onchange="myFunction(event)">
-                            <!-- <option value="">Choose</option> -->
-                        </select>
-
+                        <input type="text" readonly class="form-control" value="<?= $event[0]['event_name'] ?>">
+                        <input type="hidden" class="form-control" id="id_event1" required name="id_event1" value="<?= $event[0]['id_event'] ?>">
+                        <input type="hidden" class="form-control" id="date1" required name="date1" value="<?= $event[0]['event_date'] ?>">
+                        <input type="hidden" class="form-control" id="price1" name="price1" value="<?= $event[0]['price'] ?>">
+                        <input type="hidden" id="event1" name="event1" value="1">
                     </div>
                     <hr>
-                    <!-- <h5>Data Event</h5> -->
-                    <input type="hidden" id="total_event" name="total_event">
-                    <div id="pick_event" class="hiden">
-                        <div id="temp_next_pick">
-
-                        </div>
-                    </div>
-                    <span style="font-weight:bold">Sesi 1</span>
-                    <br>
-                    <div id="event_data1" class="row">
-                        <div class="form-group col-lg-5 col-5">
-                            <label for="event_date1">Event Date</label><br>
-                            <input type="text" style="font-size:12px" class="form-control" id="event_date1" disabled name="event_date1">
-                            <input type="hidden" class="form-control" id="id_event1" required name="id_event1">
-                            <input type="hidden" class="form-control" id="date1" required name="date1">
-                        </div>
-                        <div class="form-group col-lg-5 col-5">
-                            <label for="price1">Event Price</label>
-                            <input style="font-size:12px" type="text" readonly class="form-control" id="rupiah1" />
-                            <input type="hidden" class="form-control" id="price1" name="price1">
-                        </div>
-                        <div class="col-lg-2 col-2">
-                            <label class="form-check-label" for="status_event1"></label>
-                            <input type="checkbox" name="status_event1" value="1" checked class="form-control" id="status_event1" onclick="check(1)">
-                            <input type="hidden" id="event1" name="event1" value="1">
-                        </div>
-                    </div>
-                    <div id="temp_next_event">
-
-                    </div>
+                    <input type="hidden" id="total_event" name="total_event" value="1">
                     <div class="form-group">
                         <label for="price">Price</label>
                         <input type="text" class="form-control" id="total_price_rupiah" name="total_price_rupiah" readonly>
-                        <input type="hidden" class="form-control" id="total_price" name="total_price" readonly>
+                        <input type="hidden" class="form-control" id="total_price" name="total_price" readonly value="<?= $event[0]['price'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="discount">Discount</label>
                         <input type="text" class="form-control" id="discount_rupiah" name="discount_rupiah" value="0">
                         <input type="hidden" class="form-control" id="discount" name="discount" value="0">
-                        <small>Percentage (%)</small>
+                        <small>Price (Rp)</small>
                     </div>
                     <div class="form-group">
                         <label for="rate">Total Price</label>
@@ -125,7 +97,9 @@
 <script>
     $(document).ready(function() {
         $('.select-form').select2();
-
+        document.getElementById("total_price_rupiah").value = 'Rp ' + formatRupiah(String('<?= $event[0]['price'] ?>'));
+        document.getElementById("rate_rupiah").value = 'Rp ' + formatRupiah(String('<?= $event[0]['price'] ?>'));
+        document.getElementById("rate").value = <?= $event[0]['price'] ?>;
         $("#id_student").change(function() {
             var val = $(this).val();
             $.ajax({
@@ -144,6 +118,7 @@
 </script>
 <script>
     function myFunction(e) {
+        console.log(e.target.value);
         var total_price = 0;
         var temp_val = e.target.value;
         // console.log(temp_val)
@@ -293,7 +268,8 @@
         discount.value = valuee.split('.').join("");
 
         var total_price = $('#total_price').val();
-        let persentase = parseInt(total_price) - (parseInt(total_price) * discount.value / 100);
+        // let persentase = parseInt(total_price) - (parseInt(total_price) * discount.value / 100);
+        let persentase = parseInt(parseInt(total_price) - discount.value);
 
         $('#rate_rupiah').val('Rp ' + formatRupiah(String(persentase)));
         $('#rate').val(persentase);

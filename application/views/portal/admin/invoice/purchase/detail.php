@@ -486,13 +486,13 @@
                                             Discount Event - <?= $temp_other_discount_event[$i][4] ?>
                                         </td>
                                         <td class="text-center">
-                                            <?= $temp_other_discount_event[$i][2] ?>% for <?= $temp_other_discount_event[$i][3] ?>
+                                            <?= $currency ?> <?= number_format($temp_other_discount_event[$i][2], 0, ',', '.') ?> for <?= $temp_other_discount_event[$i][3] ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php $tot_other_invoice += - ($temp_other_discount_event[$i][5]) ?>
-                                            <?php $parents_invoice_others_category += - ($temp_other_discount_event[$i][5]) ?>
+                                            <?php $tot_other_invoice += - ($temp_other_discount_event[$i][2]) ?>
+                                            <?php $parents_invoice_others_category += - ($temp_other_discount_event[$i][2]) ?>
                                             <span class="text-danger" style="font-weight:bold">
-                                                - <?= $currency ?> <?= number_format($temp_other_discount_event[$i][5], 0, ',', '.'); ?>
+                                                - <?= $currency ?> <?= number_format($temp_other_discount_event[$i][2], 0, ',', '.'); ?>
                                             </span>
                                         </td>
                                     </tr>

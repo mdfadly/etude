@@ -126,7 +126,8 @@ $route['portal/event/teacher'] = 'portal/C_Admin/event_teacher';
 $route['portal/event/teacher/add'] = 'portal/C_Admin/add_event_teacher';
 
 $route['portal/event/student'] = 'portal/C_Admin/event_student';
-$route['portal/event/student/add'] = 'portal/C_Admin/add_event_student';
+// $route['portal/event/student/add'] = 'portal/C_Admin/add_event_student';
+$route['portal/event/student/add/(:any)'] = 'portal/C_Admin/add_event_student/$1';
 $route['portal/event/student/edit/(:any)'] = 'portal/C_Admin/edit_event_student/$1';
 
 $route['portal/convert'] = 'portal/C_Admin/convert';

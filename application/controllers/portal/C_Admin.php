@@ -1900,6 +1900,124 @@ class C_Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function get_ajax_event2()
+    {
+        $this->cekLogin();
+        $dbTable = "data_event";
+        $list = $this->M_Admin->get_datatables($dbTable);
+        $data = array();
+        $no = @$_POST['start'];
+        $noo = 0;
+        if (count($list) > 0) {
+            foreach ($list as $item) {
+                $temp_event = $this->M_Admin->getEventByParent($item->parent_event);
+                $temp_participant = $this->M_Admin->getRegisterEvent(null, null, $item->parent_event);
+                $date_event_price = [];
+                $date_event = [];
+                $price_event = [];
+                $status_event = [];
+                $today = date("Y-m-d");
+
+                foreach ($temp_event as $e) {
+                    $date_event[] = date_format(date_create(substr($e['event_date'], 0, 10)), "d/m/Y");
+                    $price_event[] = "Rp" . number_format($e['price'], 0, ".", ".");
+                    $temp_status = '';
+                    if ($today > $e['event_date']) {
+                        $temp_status = '<span class="badge badge-success">Finished</span>';
+                    } elseif ($today == $e['event_date']) {
+                        $temp_status = '<span class="badge badge-warning text-white">In Progress</span>';
+                    } else {
+                        $temp_status = '<span class="badge badge-info">Upcoming</span>';
+                    }
+                    $status_event[] = $temp_status;
+                    $date_event_price[] = date_format(date_create(substr($e['event_date'], 0, 10)), "d/m/Y") . '  -  ' . $temp_status;
+                }
+
+                $participant = '';
+                $counter = 1;
+                foreach($temp_participant as $tp) {
+                    $temp_student = $this->M_Admin->getData_student($tp['id_user']);
+                    $temp = '<tr>
+                        <th>'. $counter .'</th>
+                        <th>'. $temp_student[0]['name_student'] .'</th>
+                        <th>'.$temp_event[0]['event_name'].'</th>
+                        <th>'.$price_event[0].'</th>
+                        <th>'."Rp" . number_format($tp['discount'], 0, ".", ".").'</th>
+                        <th>'."Rp" . number_format($tp['total_price'], 0, ".", ".").'</th>
+                        <th><a href="' . site_url('portal/event/student/edit/' . $tp['id_transaksi']) . '" class="btn btn-xs btn-primary mr-2 btn-update" title="Edit Data ini"> <i class="fa fa-edit icon-white"></i> </a></th>
+                    </tr>';
+                    $participant = $participant . $temp;
+                    $counter +=1;
+                }
+
+                // $temp_member = '';
+                // if ($temp_event[0]['member'] == 1) {
+                //     $temp_member = "Teacher";
+                // } else {
+                //     $temp_member = "Student";
+                // }
+
+                $row = array();
+                $row[] = ++$no;
+                $row[] = $temp_event[0]['event_name'];
+                $row[] = implode("<br>", $date_event);
+                $row[] = $price_event[0];
+                $row[] = implode("<br>", $status_event);
+                $popUpAdd = '<div class="btn-group"><a href="' . site_url('portal/event/student/add/' . $temp_event[0]['id_event']) . '" class="btn btn-xs btn-success mr-2 btn-add"> <i class="fa fa-plus icon-white"></i> </a><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop' . $item->parent_event . '"><i class="fa fa-info"></i></button></div>';
+
+                $row[] = $popUpAdd.'<div class="modal fade" id="staticBackdrop' . $item->parent_event . '" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel" style="font-weight:bold">Participant of Event</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="example" cellpadding="0" cellspacing="0" class="table table-striped table-white" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Participant</th>
+                                            <th>Event Name</th>
+                                            <th>Event Price</th>
+                                            <th>Discount</th>
+                                            <th>Total Price</th>
+                                            <th>Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        '. $participant .'
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ';
+                $data[] = $row;
+            }
+        } else {
+            $row = array();
+            $row[] = '';
+            $row[] = '';
+            $row[] = 'No data available in table';
+            $row[] = '';
+            $row[] = '';
+            $row[] = '';
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => @$_POST['draw'],
+            "recordsTotal" => $this->M_Admin->count_all($dbTable),
+            "recordsFiltered" => $this->M_Admin->count_filtered($dbTable),
+            "data" => $data,
+        );
+        // output to json format
+        echo json_encode($output);
+    }
+
     function get_ajax_event_teacher()
     {
         // $this->cekLogin();
@@ -3964,12 +4082,12 @@ class C_Admin extends CI_Controller
         $this->load->view('portal/reuse/footer');
     }
 
-    public function add_event_student()
+    public function add_event_student($id_event)
     {
         $this->cekLogin();
         $title = "Data add_event_student | Portal Etude";
         $description = "Welcome to Portal Etude";
-        $event = $this->M_Admin->getData_event(null, 2);
+        $event = $this->M_Admin->getData_event($id_event);
         $student = $this->M_Admin->getData_student();
         $event_student = $this->M_Admin->getData_detail_event_student();
         $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
@@ -4048,31 +4166,29 @@ class C_Admin extends CI_Controller
         $res = $this->M_Admin->insertDataEventStudent();
         if ($res >= 1) {
             $this->session->set_flashdata('success', 'Data successfully added');
-            redirect('portal/event/student');
+            redirect('portal/event');
         } else {
             $this->session->set_flashdata('warning', 'Failed to add data');
-            redirect('portal/event/student');
+            redirect('portal/event');
         }
     }
 
-    public function edit_event_student($id_event_student)
+    public function edit_event_student($id_transaksi)
     {
         $this->cekLogin();
-        $event_student = $this->M_Admin->getData_event_student($id_event_student);
-        $event = $this->M_Admin->getData_event(null, 2);
-        $student = $this->M_Admin->getData_student();
+        $event_student = $this->M_Admin->getRegisterEvent($id_transaksi);
 
-        $temp_student = $this->M_Admin->getData_student($event_student[0]['id_student']);
+        $temp_student = $this->M_Admin->getData_student($event_student[0]['id_user']);
+        $temp_event = $this->M_Admin->getData_event(null,null, $event_student[0]['parent_event']);
+        
         $event_student[0]['name_student'] = $temp_student[0]['name_student'];
-
-        $temp_event = $this->M_Admin->getData_event($event_student[0]['id_event']);
         $event_student[0]['event_name'] = $temp_event[0]['event_name'];
         $event_student[0]['event_date'] = $temp_event[0]['event_date'];
 
         $title = "Data event | Portal Etude";
         $description = "Welcome to Portal Etude";
         $this->load->view('portal/reuse/header', array('title' => $title, 'description' => $description));
-        $this->load->view('portal/admin/edit_event_student', array('event' => $event, 'student' => $student, 'event_student' => $event_student));
+        $this->load->view('portal/admin/edit_event_student', array('event_student' => $event_student));
         $this->load->view('portal/reuse/footer');
     }
 
@@ -4081,10 +4197,10 @@ class C_Admin extends CI_Controller
         $res = $this->M_Admin->updateDataEventStudent();
         if ($res >= 1) {
             $this->session->set_flashdata('success', 'Data successfully updated');
-            redirect('portal/event/student');
+            redirect('portal/event');
         } else {
             $this->session->set_flashdata('warning', 'Failed to update data');
-            redirect('portal/event/student');
+            redirect('portal/event');
         }
     }
 
@@ -4094,10 +4210,10 @@ class C_Admin extends CI_Controller
         $res = $this->M_Admin->deleteDataEventStudent($temp_no_transaksi);
         if ($res >= 1) {
             $this->session->set_flashdata('success', 'Data successfully deleted');
-            redirect('portal/event/student');
+            redirect('portal/event');
         } else {
             $this->session->set_flashdata('warning', 'Failed to delete data');
-            redirect('portal/event/student');
+            redirect('portal/event');
         }
     }
 
